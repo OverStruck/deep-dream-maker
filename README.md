@@ -25,7 +25,7 @@ The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because 
 
 ## Requirements
 You need to have Deep Dream working, which means having all of its dependencies installed like caffe.
-You will also need python 2.7 since that's what I am using.
+You will also need python 2.7 and [PyQt4](https://wiki.python.org/moin/PyQt4)
 
 To run the program in your terminal:
 ```

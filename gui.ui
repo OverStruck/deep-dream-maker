@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>OverStruck</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Deep Dream Maker v0.1</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>611</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Inputs</string>
+    </property>
+    <widget class="QPushButton" name="btnInputFile">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>60</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set input image</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSetOutputLoc">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>90</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set output location</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblInputImg">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>40</y>
+       <width>411</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblOutputLoc">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>80</y>
+       <width>421</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="chkPreviewMode">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Preview Image</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>611</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Deep Dream Parameters</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Number of iterations</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_itern">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>30</y>
+       <width>48</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>621</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Console output</string>
+    </property>
+    <widget class="QPlainTextEdit" name="consoleContainer">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>601</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string>AJIX?</string>
+     </property>
+     <property name="documentTitle">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="plainText">
+      <string notr="true"/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btnMakeitDream">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>281</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make it Dream</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnStopDream">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>250</y>
+      <width>321</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop Dream</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout_2">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuAbout"/>
+   <addaction name="menuAbout_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About Deep Dream Maker</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

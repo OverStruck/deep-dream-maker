@@ -3,7 +3,9 @@
 
 It allows you to easily dreamifty images without needed to use a terminal and provides a
 flexible an intuitive way to customize your dreams by specifying different parameters
+
 **Note:** currenly only tested in Ubuntu and Mint, not Windows or OSX
+
 ![](https://i.imgur.com/E0aGgG6.png)
 
 ## Please contribute
@@ -11,7 +13,7 @@ I am putting this here so that all of you can contribute to its development to m
 
 The program currently works, but it is using a very crude version of Google's original python script. Needless to say, you can chose an image, an output folder, dreamify the image and kill the process if needed, which is more than enough for testing purposes.
 
-The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because it is really fast and easy to use, aside from that fact that it is cross-platform compatible with Windows and OSx. You can edit the UI by editing the `GUI.ui` file. There's no need to compile anything, just saving your changes in Qt Designer will update the interface the next time you run the program since it is loaded dinamically.
+The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because it is really fast and easy to use, aside from that fact that it is cross-platform compatible with Windows and OSx. You can edit the UI by editing the `GUI.ui` file. There's no need to compile anything, just saving your changes in Qt Designer will update the interface the next time you run the program since it is loaded dinamically. In Ubuntu/Mint you can get Qt Designer using your [software mananer application](https://i.imgur.com/j0y1qHl.png)
 
 ## Things do to
 * Add support for different arguments such as number of iterations (<b style="color:red">1st priority</b>)

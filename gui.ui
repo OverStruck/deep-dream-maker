@@ -57,7 +57,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>40</y>
+       <y>70</y>
        <width>411</width>
        <height>17</height>
       </rect>
@@ -70,7 +70,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>80</y>
+       <y>100</y>
        <width>421</width>
        <height>17</height>
       </rect>
@@ -82,7 +82,7 @@
     <widget class="QCheckBox" name="chkPreviewMode">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>280</x>
        <y>30</y>
        <width>121</width>
        <height>22</height>
@@ -90,6 +90,439 @@
      </property>
      <property name="text">
       <string>Preview Image</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="cboBlobNames">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>20</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>conv1/7x7_s2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool1/3x3_s2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool1/norm1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>conv2/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>conv2/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>conv2/norm2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool2/3x3_s2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3a/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool3/3x3_s2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_3b/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4a/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4b/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4c/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4d/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_4e/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool4/3x3_s2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/outp</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5a/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/1x1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/3x3_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/5x5_reduce</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/pool</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>inception_5b/pool_proj</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pool5/7x7_s1</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Blob (layer)</string>
      </property>
     </widget>
    </widget>
@@ -110,22 +543,144 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>131</width>
+       <width>61</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>Number of iterations</string>
+      <string>Iterations</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_itern">
+    <widget class="QSpinBox" name="spboIternNum">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>70</x>
        <y>30</y>
        <width>48</width>
-       <height>27</height>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="value">
+      <number>10</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Octaves</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spboOctNum">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>30</y>
+       <width>48</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>4</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>30</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Scale Coefficient</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="sbspboScaCoeff">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>30</y>
+       <width>48</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="value">
+      <double>0.500000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>30</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Jitter</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spboJittNum">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>30</y>
+       <width>48</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>999</number>
+     </property>
+     <property name="value">
+      <number>32</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>30</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Step Size</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="sbspboStpSize">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>30</y>
+       <width>48</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="value">
+      <double>1.500000000000000</double>
      </property>
     </widget>
    </widget>

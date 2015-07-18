@@ -9,6 +9,8 @@ class Window(QtGui.QMainWindow):
 
 	inputImage = "" # input image path
 	outputLoc  = ""	# output image path
+	# arguments to pass to the python script
+	# TODO: set and update them using the GUI
 	ddArgs = {
 		"preview-mode": True # chkPreviewMode
 	}
@@ -104,6 +106,7 @@ class Window(QtGui.QMainWindow):
 			Main function that calls a thread class which calls Google's deep dream method
 			We use a thread so that our user interface is not frozen and so that we can
 			update our console with information about the current proccess
+			# TODO error checking and catch any errors that might occur
 		"""
 		# disable make it dream btn
 		self.ui.btnMakeitDream.setDisabled(True)

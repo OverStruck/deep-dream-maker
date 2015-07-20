@@ -13,6 +13,7 @@ class DeepDreamThread(QtCore.QThread):
 	# signal to upate console output
 	subprocessKilled = False
 	consoleUpdated = QtCore.pyqtSignal(str)
+	threadDone = QtCore.pyqtSignal(bool)
 
 	def __init__(self, mw, inputImg, outputLoc, ddArgs):
 		super(DeepDreamThread, self).__init__(mw)
@@ -39,10 +40,16 @@ class DeepDreamThread(QtCore.QThread):
 		cmd = [
 		"python -u DeepDreamWrapper.py",
 		"-img \"%s\"" % self.inputImg, 
-		"-oimg \"%s\"" % self.outputFileName
+		"-oimg \"%s\"" % self.outputFileName,
+		"-itr %s" % self.ddArgs["itr"],
+		"-oct %s" % self.ddArgs["oct"],
+		"-octs %s" % self.ddArgs["octs"],
+		"-j %s" % self.ddArgs["j"],
+		"-s %s" % self.ddArgs["s"],
+		"-l \"%s\"" % self.ddArgs["l"]
 		]
 		cmd = ' '.join(map(str, cmd))
-		print cmd
+		#print cmd
 
 		self.ddSubProc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True, bufsize=1, preexec_fn=os.setsid)
 		while self.ddSubProc.poll() is None:
@@ -54,6 +61,9 @@ class DeepDreamThread(QtCore.QThread):
 		if not self.subprocessKilled:
 			endMsg = self.calcEndTime(startTime)
 			self.updateConsole(endMsg)
+
+		# signal we are done!
+		self.threadDone.emit(True)
 
 	def updateConsole(self, outputTxt):
 		self.consoleUpdated.emit(outputTxt)

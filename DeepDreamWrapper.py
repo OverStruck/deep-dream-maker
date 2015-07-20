@@ -13,9 +13,13 @@ import PIL.Image
 import numpy as np
 from deepdream import deepdream, net
 
-def saveDream(image, filename, fmt='JPEG'):
-    image = np.uint8(image)
-    PIL.Image.fromarray(image, "RGB").save(filename, fmt)
+def saveDream(image, filePath, fmt='JPEG'):
+	"""
+		Save dreamified image.
+		Independent of the user output file name, the extension will always be JPEG
+	"""
+	image = np.uint8(image)
+	PIL.Image.fromarray(image, "RGB").save(filePath, fmt)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Deep Dream Maker")
@@ -28,7 +32,7 @@ if __name__ == "__main__":
     parser.add_argument("-itr","--iterations",help="Iterations. Default: 10", type=int, required=False,  default=10)
     parser.add_argument("-j","--jitter",help="Jitter. Default: 32", type=int, required=False,  default=32)
     parser.add_argument("-s","--stepSize",help="Step Size.  Default: 1.5", type=float, required=False,  default=1.5)
-    parser.add_argument("-l","--layers",help="Layers Loop. Default: inception_4c/output", nargs="+", type=str, required=False,  default="inception_4c/output")
+    parser.add_argument("-l","--layers",help="Layers Loop. Default: inception_4c/output", type=str, required=False,  default="inception_4c/output")
 
     args = parser.parse_args()
 
@@ -40,8 +44,9 @@ if __name__ == "__main__":
         #print "Error: No output folder"
         #exit()
 
-
-
-    image = np.float32(PIL.Image.open(args.inputImage)) #open image
-    dreamifiedImg = deepdream(net, image)
+	#open image     
+    image = np.float32(PIL.Image.open(args.inputImage))
+    #actually run google's deepdream
+    dreamifiedImg = deepdream(net, image, args.iterations, args.octaves, args.octaveScale, args.layers, True)
+    #save our image
     saveDream(dreamifiedImg, args.outputImage)

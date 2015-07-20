@@ -9,10 +9,16 @@ class Window(QtGui.QMainWindow):
 
 	inputImage = "" # input image path
 	outputLoc  = ""	# output image path
-	# arguments to pass to the python script
-	# TODO: set and update them using the GUI
+
+	# default arguments values to pass to the python script
 	ddArgs = {
-		"preview-mode": True # chkPreviewMode
+		"preview-mode": True,
+		"itr": 10,	# iterations
+		"oct": 4,	# octaves
+		"octs": .4,	# octave scale
+		"j": 32,	# jitter amount
+		"s": 1.5,	# step size
+		"l": "inception_4c/output" # layer/blob
 	}
 
 	def __init__(self):
@@ -27,8 +33,39 @@ class Window(QtGui.QMainWindow):
 		self.ui.btnSetOutputLoc.clicked.connect(self.setOutputLoc)
 		self.ui.btnMakeitDream.clicked.connect(self.makeItDream)
 		self.ui.btnStopDream.clicked.connect(self.stopDream)
+		# options/parameters
+		# number of iterations
+		self.ui.spboIternNum.valueChanged.connect(self.setIterNum)
+		# number of octaves
+		self.ui.spboOctNum.valueChanged.connect(self.setOctNum)
+		# octave scale coefficient
+		self.ui.spdbboScaCoeff.valueChanged.connect(self.setOctScaNum)
+		# jitter amount
+		self.ui.spboJittAmt.valueChanged.connect(self.setJitAmt)
+		# step size
+		self.ui.spdbboStpSize.valueChanged.connect(self.setStpSizeNum)
+		# blob/layer name
+		self.ui.cboBlobNames.currentIndexChanged.connect(self.setLayerName)
 
 		self.ui.show()
+
+	def setIterNum(self, value):
+		self.ddArgs["itr"] = value
+
+	def setOctNum(self, value):
+		self.ddArgs["oct"] = value
+
+	def setOctScaNum(self, value):
+		self.ddArgs["octs"] = value
+
+	def setJitAmt(self, value):
+		self.ddArgs["j"] = value
+
+	def setStpSizeNum(self, value):
+		self.ddArgs["s"] = value
+
+	def setLayerName(self, index):
+		self.ddArgs["l"] = str(self.ui.cboBlobNames.currentText())
 
 	def openFile(self):
 		"""
@@ -79,6 +116,14 @@ class Window(QtGui.QMainWindow):
 		msgBox.setText(msgBoxTxt)
 		msgBox.exec_()
 
+	def ddthrDone(self):
+		"""
+			This method runs when our deep dream thread is done or killed
+			it enables our btnMakeitDream and disables btnStopDream
+		"""
+		self.ui.btnMakeitDream.setEnabled(True)
+		self.ui.btnStopDream.setDisabled(True)
+
 	def closeApp(self):
 		sys.exit()
 
@@ -97,9 +142,7 @@ class Window(QtGui.QMainWindow):
 			kills thread running current dream. Disables btnStopDream. Enables btnMakeitDream
 		"""
 		self.deepDreamThread.killSubProcess()
-
-		self.ui.btnMakeitDream.setEnabled(True)
-		self.ui.btnStopDream.setDisabled(True)
+		self.ddthrDone()
 
 	def makeItDream(self):
 		"""
@@ -119,6 +162,8 @@ class Window(QtGui.QMainWindow):
 		self.deepDreamThread = ddTh.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
 		# connect signal to slot to listen for changes and update cosole contents
 		self.deepDreamThread.consoleUpdated.connect(self.updateConsole)
+		# connect signal to slot to listen for when the thread is done
+		self.deepDreamThread.threadDone.connect(self.ddthrDone)
 		self.deepDreamThread.start()
 
 def main():

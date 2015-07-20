@@ -4,7 +4,6 @@ import sys
 import DeepDreamThread as ddTh
 from PyQt4 import QtGui, QtCore, uic
 
-
 class Window(QtGui.QMainWindow):
 
 	inputImage = "" # input image path
@@ -101,6 +100,9 @@ class Window(QtGui.QMainWindow):
 		"""
 		self.ui.consoleContainer.appendPlainText(outputTxt)
 
+	def updateProgressBar(self, value):
+		self.ui.progressBar.setValue(value)
+
 	def aboutMsg(self):
 		"""
 			Display a message box showing information about this application
@@ -159,11 +161,17 @@ class Window(QtGui.QMainWindow):
 		inputImg = str(self.inputImage)
 		outputLoc = str(self.outputLoc)
 
+		totalProgress = int(self.ddArgs["itr"]) * int(self.ddArgs["oct"])
+		self.updateProgressBar(0)
+		self.ui.progressBar.setMaximum(totalProgress)
+
 		self.deepDreamThread = ddTh.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
 		# connect signal to slot to listen for changes and update cosole contents
 		self.deepDreamThread.consoleUpdated.connect(self.updateConsole)
 		# connect signal to slot to listen for when the thread is done
 		self.deepDreamThread.threadDone.connect(self.ddthrDone)
+		# connect signal to slot to listen for progress bar progress
+		self.deepDreamThread.progressBarUpdated.connect(self.updateProgressBar)
 		self.deepDreamThread.start()
 
 def main():

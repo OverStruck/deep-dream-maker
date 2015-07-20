@@ -5,6 +5,15 @@
 	Originally to be used by a python notebook
 	We have commened out all innecesary code
 """
+# custom code
+import sys
+from os.path import expanduser
+# get the home directory of the user
+user_home_path = expanduser("~")
+# set the path of caffe (asuming it's installed in the user's home dir)
+sys.path.insert(0, user_home_path + "/caffe/python")
+# custom code ends
+
 # imports and basic notebook setup
 #from cStringIO import StringIO
 import numpy as np
@@ -20,7 +29,7 @@ def showarray(a, fmt='jpeg'):
     PIL.Image.fromarray(a).save(f, fmt)
     display(Image(data=f.getvalue() """
 
-model_path = '../caffe/models/bvlc_googlenet/' # substitute your path here
+model_path = user_home_path + '/caffe/models/bvlc_googlenet/' # substitute your path here
 net_fn   = model_path + 'deploy.prototxt'
 param_fn = model_path + 'bvlc_googlenet.caffemodel'
 
@@ -76,6 +85,8 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4,
     
 	src = net.blobs['data']
 	detail = np.zeros_like(octaves[-1]) # allocate image for network-produced details
+
+	totalRuns = 0
 	for octave, octave_base in enumerate(octaves[::-1]):
 		h, w = octave_base.shape[-2:]
 		if octave > 0:
@@ -93,7 +104,9 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4,
 			if not clip: # adjust image contrast if clipping is disabled
 				vis = vis*(255.0/np.percentile(vis, 99.98))
 			#showarray(vis)
+			totalRuns = totalRuns + 1
 			print octave, i, end, vis.shape
+			print "CURRENT_RUN: %d" % totalRuns
 			#clear_output(wait=True)
             
 		# extract details produced on the current octave

@@ -709,9 +709,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>290</y>
+      <y>310</y>
       <width>621</width>
-      <height>151</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
@@ -770,6 +770,25 @@
     </property>
     <property name="text">
      <string>Stop Dream</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>611</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="textVisible">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

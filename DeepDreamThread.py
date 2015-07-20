@@ -1,5 +1,6 @@
 from PyQt4 import QtCore
 
+import re
 import os
 import time
 import signal
@@ -13,6 +14,7 @@ class DeepDreamThread(QtCore.QThread):
 	# signal to upate console output
 	subprocessKilled = False
 	consoleUpdated = QtCore.pyqtSignal(str)
+	progressBarUpdated = QtCore.pyqtSignal(int)
 	threadDone = QtCore.pyqtSignal(bool)
 
 	def __init__(self, mw, inputImg, outputLoc, ddArgs):
@@ -50,12 +52,16 @@ class DeepDreamThread(QtCore.QThread):
 		]
 		cmd = ' '.join(map(str, cmd))
 		#print cmd
-
+		progressBarPattern = re.compile("CURRENT_RUN: (\d+)")
 		self.ddSubProc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True, bufsize=1, preexec_fn=os.setsid)
 		while self.ddSubProc.poll() is None:
 			line = self.ddSubProc.stdout.readline()
 			if line:
-				self.updateConsole(line)
+				progress = progressBarPattern.match(line)
+				if progress:
+					self.progressBarUpdated.emit(int( progress.group(1) ))
+				else:
+					self.updateConsole(line)
 		
 		#calculate proccess time
 		if not self.subprocessKilled:
@@ -83,6 +89,8 @@ class DeepDreamThread(QtCore.QThread):
 
 	def getOutputFileName(self):
 		fileName = self.fileName
+		fileName = fileName.replace(".png", ".jpg")
+		fileName = fileName.replace(".gif", ".jpg")
 		return self.outputLoc + "/dreamified_" + fileName
 
 	def killSubProcess(self):

@@ -44,8 +44,9 @@ if __name__ == "__main__":
         #print "Error: No output folder"
         #exit()
 
-	#open image     
-    image = np.float32(PIL.Image.open(args.inputImage))
+	#open image
+    image = PIL.Image.open(args.inputImage).convert("RGB")
+    image = np.float32(image)
     #actually run google's deepdream
     dreamifiedImg = deepdream(net, image, args.iterations, args.octaves, args.octaveScale, args.layers, True)
     #save our image

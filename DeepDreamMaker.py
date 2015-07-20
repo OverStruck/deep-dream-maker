@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
 #import DeepDreamThread
-import DeepDreamThread
+import DeepDreamThread as ddTh
 from PyQt4 import QtGui, QtCore, uic
 
 
@@ -116,7 +116,7 @@ class Window(QtGui.QMainWindow):
 		inputImg = str(self.inputImage)
 		outputLoc = str(self.outputLoc)
 
-		self.deepDreamThread = DeepDreamThread.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
+		self.deepDreamThread = ddTh.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
 		# connect signal to slot to listen for changes and update cosole contents
 		self.deepDreamThread.consoleUpdated.connect(self.updateConsole)
 		self.deepDreamThread.start()

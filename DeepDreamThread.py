@@ -36,7 +36,14 @@ class DeepDreamThread(QtCore.QThread):
 		# we run the actual deepdream code in a subprocess in order to capture any and all
 		# console output as if we were running it in a terminal
 		# notice the -u flag in our command, it is required to capture the output in real time
-		cmd = "python -u dream.py \"%s\" \"%s\"" % (self.inputImg, self.outputFileName)
+		cmd = [
+		"python -u DeepDreamWrapper.py",
+		"-img \"%s\"" % self.inputImg, 
+		"-oimg \"%s\"" % self.outputFileName
+		]
+		cmd = ' '.join(map(str, cmd))
+		print cmd
+
 		self.ddSubProc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True, bufsize=1, preexec_fn=os.setsid)
 		while self.ddSubProc.poll() is None:
 			line = self.ddSubProc.stdout.readline()
@@ -66,9 +73,7 @@ class DeepDreamThread(QtCore.QThread):
 
 	def getOutputFileName(self):
 		fileName = self.fileName
-		fileName = fileName.replace(".jpg", ".png")
-		fileName = fileName.replace(".jpeg", ".png")
-		return self.outputLoc + "/" + fileName
+		return self.outputLoc + "/dreamified_" + fileName
 
 	def killSubProcess(self):
 		ddSubProcId = self.ddSubProc.pid

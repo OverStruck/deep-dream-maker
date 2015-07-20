@@ -18,7 +18,7 @@ The program currently works, but it is using a very crude version of Google's or
 The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because it is really fast and easy to use, aside from that fact that it is cross-platform compatible with Windows and OSx. You can edit the UI by editing the `GUI.ui` file. There's no need to compile anything, just saving your changes in Qt Designer will update the interface the next time you run the program since it is loaded dinamically. In Ubuntu/Mint you can get Qt Designer using [Software Manager](https://i.imgur.com/j0y1qHl.png)
 
 ## Things do to
-* Add support for different arguments such as number of iterations (<b style="color:red">1st priority</b>)
+* ~~Add support for different arguments such as number of iterations (<b style="color:red">1st priority</b>)~~
     * ~~Add gui elements for different arguments (*checkboxes, etc...*)~~
 * Add support to create animations (videos and gifs w/ option to zoom and rotate)
 * Error checking

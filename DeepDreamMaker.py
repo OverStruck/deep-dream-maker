@@ -15,7 +15,7 @@ class Window(QtGui.QMainWindow):
 		"preview-mode": True,
 		"itr": 10,	# iterations
 		"oct": 4,	# octaves
-		"octs": .4,	# octave scale
+		"octs": 1.4,	# octave scale
 		"j": 32,	# jitter amount
 		"s": 1.5,	# step size
 		"l": "inception_4c/output" # layer/blob

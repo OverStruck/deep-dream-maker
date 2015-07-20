@@ -19,7 +19,7 @@ The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because 
 
 ## Things do to
 * Add support for different arguments such as number of iterations (<b style="color:red">1st priority</b>)
-    * Add gui elements for different arguments (*checkboxes, etc...*)
+    * ~~Add gui elements for different arguments (*checkboxes, etc...*)~~
 * Add support to create animations (videos and gifs w/ option to zoom and rotate)
 * Error checking
 * Multi-threading support

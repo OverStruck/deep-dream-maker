@@ -16,6 +16,7 @@ class DeepDreamThread(QtCore.QThread):
 	consoleUpdated = QtCore.pyqtSignal(str)
 	progressBarUpdated = QtCore.pyqtSignal(int)
 	threadDone = QtCore.pyqtSignal(bool)
+	previewImage = QtCore.pyqtSignal(str)
 
 	def __init__(self, mw, inputImg, outputLoc, ddArgs):
 		super(DeepDreamThread, self).__init__(mw)
@@ -52,14 +53,18 @@ class DeepDreamThread(QtCore.QThread):
 		]
 		cmd = ' '.join(map(str, cmd))
 		#print cmd
-		progressBarPattern = re.compile("CURRENT_RUN: (\d+)")
+		progressBarPattern = re.compile("CURRENT_RUN\: (\d+)")
+		previewPattern = re.compile("PREVIEW_IMG\:(.*)")
 		self.ddSubProc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True, bufsize=1, preexec_fn=os.setsid)
 		while self.ddSubProc.poll() is None:
 			line = self.ddSubProc.stdout.readline()
 			if line:
 				progress = progressBarPattern.match(line)
+				preview = previewPattern.match(line)
 				if progress:
 					self.progressBarUpdated.emit(int( progress.group(1) ))
+				elif preview:
+					self.previewImage.emit( preview.group(1).strip("\t\n\r") )
 				else:
 					self.updateConsole(line)
 		

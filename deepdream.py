@@ -5,14 +5,29 @@
 	Originally to be used by a python notebook
 	We have commened out all innecesary code
 """
-# custom code
+############ custom code starts ############
 import sys
+import PIL.Image
+from cStringIO import StringIO
 from os.path import expanduser
+from base64 import b64encode
+
+def updatePreviewWin(imgArray):
+	img = np.uint8(np.clip(imgArray, 0, 255))
+	output = StringIO()
+	img = PIL.Image.fromarray(img, "RGB")
+	img.save(output, "png")
+	contents = output.getvalue()
+	output.close()
+	encodedImg = b64encode(contents)
+	print "PREVIEW_IMG: %s" % encodedImg
+	#preview_img_window.refreshPreview(img)
+
 # get the home directory of the user
 user_home_path = expanduser("~")
 # set the path of caffe (asuming it's installed in the user's home dir)
 sys.path.insert(0, user_home_path + "/caffe/python")
-# custom code ends
+############ custom code ends ############
 
 # imports and basic notebook setup
 #from cStringIO import StringIO
@@ -104,9 +119,14 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4,
 			if not clip: # adjust image contrast if clipping is disabled
 				vis = vis*(255.0/np.percentile(vis, 99.98))
 			#showarray(vis)
+			# custom deep dream maker code
 			totalRuns = totalRuns + 1
-			print octave, i, end, vis.shape
+			#if totalRuns % 10 == 0:
 			print "CURRENT_RUN: %d" % totalRuns
+			if totalRuns % 10 == 0:
+				updatePreviewWin(vis)
+			print octave, i, end, vis.shape
+			# custom deep dream maker code ends
 			#clear_output(wait=True)
             
 		# extract details produced on the current octave

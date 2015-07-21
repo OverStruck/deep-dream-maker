@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import sys
-#import DeepDreamThread
+import PIL.Image
 import DeepDreamThread as ddTh
+
+from cStringIO import StringIO
+from base64 import b64decode
+from PIL.ImageQt import ImageQt
 from PyQt4 import QtGui, QtCore, uic
 
 class Window(QtGui.QMainWindow):
@@ -11,7 +15,7 @@ class Window(QtGui.QMainWindow):
 
 	# default arguments values to pass to the python script
 	ddArgs = {
-		"preview-mode": True,
+		"preview-image": True,
 		"itr": 10,	# iterations
 		"oct": 4,	# octaves
 		"octs": 1.4,	# octave scale
@@ -24,6 +28,7 @@ class Window(QtGui.QMainWindow):
 		super(Window, self).__init__()
 		# gui.ui made with qt designer
 		self.ui = uic.loadUi("gui.ui", self)
+		self.label = QtGui.QLabel()
 		# menu bar actions
 		self.ui.actionAbout.triggered.connect(self.aboutMsg)
 		self.ui.actionExit.triggered.connect(self.closeApp)
@@ -103,6 +108,21 @@ class Window(QtGui.QMainWindow):
 	def updateProgressBar(self, value):
 		self.ui.progressBar.setValue(value)
 
+	def updatePreviewImg(self, img):
+		img = b64decode(img)
+		img = StringIO(img)
+		img = PIL.Image.open(img)
+		img = img.resize((img.size[0], img.size[1]))
+		#img.save("ajix.jpg", "jpeg")
+		pixmap = QtGui.QPixmap.fromImage(ImageQt(img))
+		#pixmap = QtGui.QPixmap(pixmap)
+		pixmap = pixmap.scaled(self.label.size(), QtCore.Qt.KeepAspectRatio)
+
+		#self.label.clear()
+		self.label.setPixmap(pixmap)
+		if self.label.isVisible() == False:
+			self.label.show()
+
 	def aboutMsg(self):
 		"""
 			Display a message box showing information about this application
@@ -172,6 +192,8 @@ class Window(QtGui.QMainWindow):
 		self.deepDreamThread.threadDone.connect(self.ddthrDone)
 		# connect signal to slot to listen for progress bar progress
 		self.deepDreamThread.progressBarUpdated.connect(self.updateProgressBar)
+		# connect signal to slot to listen for preview image progress
+		self.deepDreamThread.previewImage.connect(self.updatePreviewImg)
 		self.deepDreamThread.start()
 
 def main():
@@ -179,4 +201,5 @@ def main():
 	Window()
 	sys.exit(app.exec_())
 
-main()
+if __name__ == '__main__':
+	main()

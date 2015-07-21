@@ -574,6 +574,9 @@
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>130</x>
@@ -723,7 +726,7 @@
        <x>10</x>
        <y>20</y>
        <width>601</width>
-       <height>121</height>
+       <height>101</height>
       </rect>
      </property>
      <property name="whatsThis">

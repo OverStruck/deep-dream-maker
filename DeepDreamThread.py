@@ -16,12 +16,14 @@ class DeepDreamThread(QtCore.QThread):
 	consoleUpdated = QtCore.pyqtSignal(str)
 	progressBarUpdated = QtCore.pyqtSignal(int)
 	threadDone = QtCore.pyqtSignal(bool)
+	previewImage = QtCore.pyqtSignal(str)
 
-	def __init__(self, mw, inputImg, outputLoc, ddArgs):
+	def __init__(self, mw, inputImg, outputLoc, ddArgs, previewImagesQueue):
 		super(DeepDreamThread, self).__init__(mw)
 		self.inputImg = inputImg	# input image PATH
 		self.outputLoc = outputLoc	# output directory PATH
 		self.ddArgs = ddArgs # options/arguments to pass 2 deepdream
+		self.previewImagesQueue = previewImagesQueue
 		# file name
 		self.fileName = self.getFileName(self.inputImg)
 		self.outputFileName = self.getOutputFileName()
@@ -52,14 +54,19 @@ class DeepDreamThread(QtCore.QThread):
 		]
 		cmd = ' '.join(map(str, cmd))
 		#print cmd
-		progressBarPattern = re.compile("CURRENT_RUN: (\d+)")
+		progressBarPattern = re.compile("CURRENT_RUN\: (\d+)")
+		previewPattern = re.compile("PREVIEW_IMG\:(.*)")
 		self.ddSubProc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True, bufsize=1, preexec_fn=os.setsid)
 		while self.ddSubProc.poll() is None:
 			line = self.ddSubProc.stdout.readline()
 			if line:
 				progress = progressBarPattern.match(line)
+				preview = previewPattern.match(line)
 				if progress:
 					self.progressBarUpdated.emit(int( progress.group(1) ))
+				elif preview and self.ddArgs["preview-image"]:
+					self.previewImagesQueue.put( preview.group(1).strip("\t\n\r") )
+					#self.previewImage.emit( preview.group(1).strip("\t\n\r") )
 				else:
 					self.updateConsole(line)
 		

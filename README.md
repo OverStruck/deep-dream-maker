@@ -6,9 +6,9 @@ flexible and intuitive way to customize your dreams by specifying different para
 
 **Note:** currenly only tested in Ubuntu and Mint, not Windows or OSX
 
-![](https://i.imgur.com/WDzWfRE.png)
+![](https://i.imgur.com/MjHeCn2.png)
 
-[Previous Image](https://i.imgur.com/E0aGgG6.png)
+[Previous Image 1](https://i.imgur.com/E0aGgG6.png) | [Previous Image 2](https://i.imgur.com/WDzWfRE.png)
 
 ## Please contribute
 I am putting this here so that all of you can contribute to its development to make a first beta version faster.

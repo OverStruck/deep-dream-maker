@@ -79,7 +79,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QCheckBox" name="chkPreviewMode">
+    <widget class="QCheckBox" name="chkPreviewImg">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -102,7 +102,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>45</number>
+      <number>0</number>
      </property>
      <item>
       <property name="text">
@@ -456,7 +456,7 @@
      </item>
      <item>
       <property name="text">
-       <string>inception_5a/outp</string>
+       <string>inception_5a/output</string>
       </property>
      </item>
      <item>
@@ -574,6 +574,9 @@
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>130</x>
@@ -628,7 +631,7 @@
       <number>1</number>
      </property>
      <property name="minimum">
-      <double>0.100000000000000</double>
+      <double>1.000000000000000</double>
      </property>
      <property name="singleStep">
       <double>0.100000000000000</double>
@@ -723,7 +726,7 @@
        <x>10</x>
        <y>20</y>
        <width>601</width>
-       <height>121</height>
+       <height>101</height>
       </rect>
      </property>
      <property name="whatsThis">

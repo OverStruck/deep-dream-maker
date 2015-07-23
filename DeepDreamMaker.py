@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import sys
-#import DeepDreamThread
-import DeepDreamThread as ddTh
+from Queue import Queue
+from PreviewWindow import PreviewWindow
 from PyQt4 import QtGui, QtCore, uic
+from DeepDreamThread import DeepDreamThread
 
 class Window(QtGui.QMainWindow):
 
@@ -11,7 +12,7 @@ class Window(QtGui.QMainWindow):
 
 	# default arguments values to pass to the python script
 	ddArgs = {
-		"preview-mode": True,
+		"preview-image": False,
 		"itr": 10,	# iterations
 		"oct": 4,	# octaves
 		"octs": 1.4,	# octave scale
@@ -24,6 +25,8 @@ class Window(QtGui.QMainWindow):
 		super(Window, self).__init__()
 		# gui.ui made with qt designer
 		self.ui = uic.loadUi("gui.ui", self)
+		self.previewImages = Queue()
+		self.pw = None
 		# menu bar actions
 		self.ui.actionAbout.triggered.connect(self.aboutMsg)
 		self.ui.actionExit.triggered.connect(self.closeApp)
@@ -45,8 +48,13 @@ class Window(QtGui.QMainWindow):
 		self.ui.spdbboStpSize.valueChanged.connect(self.setStpSizeNum)
 		# blob/layer name
 		self.ui.cboBlobNames.currentIndexChanged.connect(self.setLayerName)
+		# show preview image checkbox
+		self.ui.chkPreviewImg.stateChanged.connect(self.setPreviewWin)
 
 		self.ui.show()
+
+	def setPreviewWin(self):
+		self.ddArgs["preview-image"] = self.ui.chkPreviewImg.isChecked()
 
 	def setIterNum(self, value):
 		self.ddArgs["itr"] = value
@@ -161,22 +169,28 @@ class Window(QtGui.QMainWindow):
 		inputImg = str(self.inputImage)
 		outputLoc = str(self.outputLoc)
 
+		if self.pw is None and self.ddArgs["preview-image"]:
+			self.pw = PreviewWindow(self, self.previewImages)
+
 		totalProgress = int(self.ddArgs["itr"]) * int(self.ddArgs["oct"])
 		self.updateProgressBar(0)
 		self.ui.progressBar.setMaximum(totalProgress)
 
-		self.deepDreamThread = ddTh.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
+		self.deepDreamThread = DeepDreamThread(self, inputImg, outputLoc, self.ddArgs, self.previewImages)
 		# connect signal to slot to listen for changes and update cosole contents
 		self.deepDreamThread.consoleUpdated.connect(self.updateConsole)
 		# connect signal to slot to listen for when the thread is done
 		self.deepDreamThread.threadDone.connect(self.ddthrDone)
 		# connect signal to slot to listen for progress bar progress
 		self.deepDreamThread.progressBarUpdated.connect(self.updateProgressBar)
+		# connect signal to slot to listen for preview image progress
+		#self.deepDreamThread.previewImage.connect(self.updatePreviewImg)
 		self.deepDreamThread.start()
 
 def main():
-	app = QtGui.QApplication([])
+	app = QtGui.QApplication(["Deep Dream Maker"])
 	Window()
 	sys.exit(app.exec_())
 
-main()
+if __name__ == '__main__':
+	main()

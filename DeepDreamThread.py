@@ -64,7 +64,7 @@ class DeepDreamThread(QtCore.QThread):
 				preview = previewPattern.match(line)
 				if progress:
 					self.progressBarUpdated.emit(int( progress.group(1) ))
-				elif preview:
+				elif preview and self.ddArgs["preview-image"]:
 					self.previewImagesQueue.put( preview.group(1).strip("\t\n\r") )
 					#self.previewImage.emit( preview.group(1).strip("\t\n\r") )
 				else:

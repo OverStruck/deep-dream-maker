@@ -79,7 +79,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QCheckBox" name="chkPreviewMode">
+    <widget class="QCheckBox" name="chkPreviewImg">
      <property name="geometry">
       <rect>
        <x>280</x>

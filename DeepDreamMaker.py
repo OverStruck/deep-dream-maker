@@ -12,7 +12,7 @@ class Window(QtGui.QMainWindow):
 
 	# default arguments values to pass to the python script
 	ddArgs = {
-		"preview-image": True,
+		"preview-image": False,
 		"itr": 10,	# iterations
 		"oct": 4,	# octaves
 		"octs": 1.4,	# octave scale
@@ -48,8 +48,13 @@ class Window(QtGui.QMainWindow):
 		self.ui.spdbboStpSize.valueChanged.connect(self.setStpSizeNum)
 		# blob/layer name
 		self.ui.cboBlobNames.currentIndexChanged.connect(self.setLayerName)
+		# show preview image checkbox
+		self.ui.chkPreviewImg.stateChanged.connect(self.setPreviewWin)
 
 		self.ui.show()
+
+	def setPreviewWin(self):
+		self.ddArgs["preview-image"] = self.ui.chkPreviewImg.isChecked()
 
 	def setIterNum(self, value):
 		self.ddArgs["itr"] = value
@@ -164,7 +169,7 @@ class Window(QtGui.QMainWindow):
 		inputImg = str(self.inputImage)
 		outputLoc = str(self.outputLoc)
 
-		if self.pw is None:
+		if self.pw is None and self.ddArgs["preview-image"]:
 			self.pw = PreviewWindow(self, self.previewImages)
 
 		totalProgress = int(self.ddArgs["itr"]) * int(self.ddArgs["oct"])

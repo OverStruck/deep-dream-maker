@@ -102,7 +102,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>45</number>
+      <number>0</number>
      </property>
      <item>
       <property name="text">
@@ -456,7 +456,7 @@
      </item>
      <item>
       <property name="text">
-       <string>inception_5a/outp</string>
+       <string>inception_5a/output</string>
       </property>
      </item>
      <item>
@@ -631,7 +631,7 @@
       <number>1</number>
      </property>
      <property name="minimum">
-      <double>0.100000000000000</double>
+      <double>1.000000000000000</double>
      </property>
      <property name="singleStep">
       <double>0.100000000000000</double>

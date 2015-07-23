@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 import sys
-import PIL.Image
-import DeepDreamThread as ddTh
-
-from cStringIO import StringIO
-from base64 import b64decode
-from PIL.ImageQt import ImageQt
+from Queue import Queue
+from PreviewWindow import PreviewWindow
 from PyQt4 import QtGui, QtCore, uic
+from DeepDreamThread import DeepDreamThread
 
 class Window(QtGui.QMainWindow):
 
@@ -28,7 +25,8 @@ class Window(QtGui.QMainWindow):
 		super(Window, self).__init__()
 		# gui.ui made with qt designer
 		self.ui = uic.loadUi("gui.ui", self)
-		self.label = QtGui.QLabel()
+		self.previewImages = Queue()
+		self.pw = None
 		# menu bar actions
 		self.ui.actionAbout.triggered.connect(self.aboutMsg)
 		self.ui.actionExit.triggered.connect(self.closeApp)
@@ -108,21 +106,6 @@ class Window(QtGui.QMainWindow):
 	def updateProgressBar(self, value):
 		self.ui.progressBar.setValue(value)
 
-	def updatePreviewImg(self, img):
-		img = b64decode(img)
-		img = StringIO(img)
-		img = PIL.Image.open(img)
-		img = img.resize((img.size[0], img.size[1]))
-		#img.save("ajix.jpg", "jpeg")
-		pixmap = QtGui.QPixmap.fromImage(ImageQt(img))
-		#pixmap = QtGui.QPixmap(pixmap)
-		pixmap = pixmap.scaled(self.label.size(), QtCore.Qt.KeepAspectRatio)
-
-		#self.label.clear()
-		self.label.setPixmap(pixmap)
-		if self.label.isVisible() == False:
-			self.label.show()
-
 	def aboutMsg(self):
 		"""
 			Display a message box showing information about this application
@@ -181,11 +164,14 @@ class Window(QtGui.QMainWindow):
 		inputImg = str(self.inputImage)
 		outputLoc = str(self.outputLoc)
 
+		if self.pw is None:
+			self.pw = PreviewWindow(self, self.previewImages)
+
 		totalProgress = int(self.ddArgs["itr"]) * int(self.ddArgs["oct"])
 		self.updateProgressBar(0)
 		self.ui.progressBar.setMaximum(totalProgress)
 
-		self.deepDreamThread = ddTh.DeepDreamThread(self, inputImg, outputLoc, self.ddArgs)
+		self.deepDreamThread = DeepDreamThread(self, inputImg, outputLoc, self.ddArgs, self.previewImages)
 		# connect signal to slot to listen for changes and update cosole contents
 		self.deepDreamThread.consoleUpdated.connect(self.updateConsole)
 		# connect signal to slot to listen for when the thread is done
@@ -193,11 +179,11 @@ class Window(QtGui.QMainWindow):
 		# connect signal to slot to listen for progress bar progress
 		self.deepDreamThread.progressBarUpdated.connect(self.updateProgressBar)
 		# connect signal to slot to listen for preview image progress
-		self.deepDreamThread.previewImage.connect(self.updatePreviewImg)
+		#self.deepDreamThread.previewImage.connect(self.updatePreviewImg)
 		self.deepDreamThread.start()
 
 def main():
-	app = QtGui.QApplication([])
+	app = QtGui.QApplication(["Deep Dream Maker"])
 	Window()
 	sys.exit(app.exec_())
 

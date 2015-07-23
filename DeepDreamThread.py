@@ -18,11 +18,12 @@ class DeepDreamThread(QtCore.QThread):
 	threadDone = QtCore.pyqtSignal(bool)
 	previewImage = QtCore.pyqtSignal(str)
 
-	def __init__(self, mw, inputImg, outputLoc, ddArgs):
+	def __init__(self, mw, inputImg, outputLoc, ddArgs, previewImagesQueue):
 		super(DeepDreamThread, self).__init__(mw)
 		self.inputImg = inputImg	# input image PATH
 		self.outputLoc = outputLoc	# output directory PATH
 		self.ddArgs = ddArgs # options/arguments to pass 2 deepdream
+		self.previewImagesQueue = previewImagesQueue
 		# file name
 		self.fileName = self.getFileName(self.inputImg)
 		self.outputFileName = self.getOutputFileName()
@@ -64,7 +65,8 @@ class DeepDreamThread(QtCore.QThread):
 				if progress:
 					self.progressBarUpdated.emit(int( progress.group(1) ))
 				elif preview:
-					self.previewImage.emit( preview.group(1).strip("\t\n\r") )
+					self.previewImagesQueue.put( preview.group(1).strip("\t\n\r") )
+					#self.previewImage.emit( preview.group(1).strip("\t\n\r") )
 				else:
 					self.updateConsole(line)
 		

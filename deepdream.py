@@ -3,25 +3,19 @@
 	https://github.com/google/deepdream
 
 	Originally to be used by a python notebook
-	We have commened out all innecesary code
+	We have removed out all unnecesary code
 """
 ############ custom code starts ############
 import sys
 import PIL.Image
-from cStringIO import StringIO
 from os.path import expanduser
-from base64 import b64encode
 
-def updatePreviewWin(imgArray):
+def updatePreviewQueue(imgArray, previewImgQueue):
+	"""
+	Update preview image queue
+	"""
 	img = np.uint8(np.clip(imgArray, 0, 255))
-	output = StringIO()
-	img = PIL.Image.fromarray(img, "RGB")
-	img.save(output, "png")
-	contents = output.getvalue()
-	output.close()
-	encodedImg = b64encode(contents)
-	print "PREVIEW_IMG: %s" % encodedImg
-	#preview_img_window.refreshPreview(img)
+	previewImgQueue.put(img)
 
 # get the home directory of the user
 user_home_path = expanduser("~")
@@ -37,12 +31,6 @@ import scipy.ndimage as nd
 from google.protobuf import text_format
 
 import caffe
-""" not needed
-def showarray(a, fmt='jpeg'):
-    a = np.uint8(np.clip(a, 0, 255))
-    f = StringIO()
-    PIL.Image.fromarray(a).save(f, fmt)
-    display(Image(data=f.getvalue() """
 
 model_path = user_home_path + '/caffe/models/bvlc_googlenet/' # substitute your path here
 net_fn   = model_path + 'deploy.prototxt'
@@ -91,8 +79,8 @@ def make_step(net, step_size=1.5, end='inception_4c/output',
 		bias = net.transformer.mean['data']
 		src.data[:] = np.clip(src.data, -bias, 255-bias)
 
-def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, 
-	end='inception_4c/output', clip=True, **step_params):
+def deepdream(killProcess, net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, 
+	end='inception_4c/output', clip=True, progressBarQueue=None, previewImgQueue=None, **step_params):
     # prepare base images for all octaves
 	octaves = [preprocess(net, base_img)]
 	for i in xrange(octave_n-1):
@@ -121,21 +109,21 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4,
 			#showarray(vis)
 			# custom deep dream maker code
 			totalRuns = totalRuns + 1
-			#if totalRuns % 10 == 0:
-			print "CURRENT_RUN: %d" % totalRuns
-			if totalRuns % 10 == 0:
-				updatePreviewWin(vis)
-			print octave, i, end, vis.shape
+			progressBarQueue.put( totalRuns )
+			if totalRuns % 10 == 0 and previewImgQueue is not None:
+				updatePreviewQueue(vis, previewImgQueue)
+
+			if killProcess.value is True:
+				return deprocess(net, src.data[0])
+
+			#print octave, i, end, vis.shape
+
 			# custom deep dream maker code ends
-			#clear_output(wait=True)
             
 		# extract details produced on the current octave
 		detail = src.data[0]-octave_base
 	# returning the resulting image
 	return deprocess(net, src.data[0])
-
-#img = np.float32(PIL.Image.open('sky1024px.jpg'))
-# save image here...
 
 """
 	End of script. We just call the deepdream function from our wrapper script

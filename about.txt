@@ -1,0 +1,7 @@
+Deep Dream Maker v0.1
+
+This application allows you to use Google's Deep Dream python script
+without needing to use a command line
+
+This is an open source project maintained by @overstruck
+Repository: https://github.com/OverStruck/deep-dream-maker

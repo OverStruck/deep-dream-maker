@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="ddm">
+    <file>Icon_Photo.png</file>
+  </qresource>
+</RCC>

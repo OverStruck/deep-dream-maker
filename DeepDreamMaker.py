@@ -203,8 +203,9 @@ class Window(QtGui.QMainWindow):
 	
 	def stopDream(self):
 		""" kills thread running current dream. Disables btnStopDream. Enables btnMakeitDream """
+		self.ui.btnStopDream.setDisabled(True)
+		self.updateConsole("* Killing DeepDream proccess, please wait a little bit...")
 		self.deepDreamThread.killProcess()
-		self.ddThreadDone()
 
 	def makeItDream(self):
 		"""

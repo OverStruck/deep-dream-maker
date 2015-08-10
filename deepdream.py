@@ -59,7 +59,7 @@ def objective_L2(dst):
 def make_step(net, step_size=1.5, end='inception_4c/output', 
 	jitter=32, clip=True, objective=objective_L2):
 	'''Basic gradient ascent step.'''
-
+	print jitter, " ", step_size
 	src = net.blobs['data'] # input image is stored in Net's 'data' blob
 	dst = net.blobs[end]
 
@@ -80,7 +80,7 @@ def make_step(net, step_size=1.5, end='inception_4c/output',
 		src.data[:] = np.clip(src.data, -bias, 255-bias)
 
 def deepdream(killProcess, net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, 
-	end='inception_4c/output', clip=True, progressBarQueue=None, previewImgQueue=None, **step_params):
+	end='inception_4c/output', clip=True, progressBarQueue=None, previewImgQueue=None, jitter=32, stepSize=1.5, **step_params):
     # prepare base images for all octaves
 	octaves = [preprocess(net, base_img)]
 	for i in xrange(octave_n-1):
@@ -100,7 +100,7 @@ def deepdream(killProcess, net, base_img, iter_n=10, octave_n=4, octave_scale=1.
 		src.reshape(1,3,h,w) # resize the network's input image size
 		src.data[0] = octave_base+detail
 		for i in xrange(iter_n):
-			make_step(net, end=end, clip=clip, **step_params)
+			make_step(net, end=end, clip=clip, jitter=jitter, step_size=stepSize, **step_params)
             
 			# visualization
 			vis = deprocess(net, src.data[0])

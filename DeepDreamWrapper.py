@@ -27,7 +27,8 @@ def deepDreamMaker(killProcess, inputImg, outputLoc, args, progressBarQueue = No
     #image.thumbnail( (500, 500), PIL.Image.ANTIALIAS)
     image = np.float32(image)
     #actually run google's deepdream
-    dreamifiedImg = deepdream(killProcess, net, image, args["iterations"], args["octaves"], args["octaveScale"], args["layers"], True, progressBarQueue, previewImgQueue)
+    dreamifiedImg = deepdream(killProcess, net, image, args["iterations"], args["octaves"], args["octaveScale"], 
+        args["layers"], True, progressBarQueue, previewImgQueue, args["jitter"], args["stepSize"])
    
     #if not killProcess.value:
     

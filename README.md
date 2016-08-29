@@ -14,7 +14,7 @@ flexible and intuitive way to customize your dreams by specifying different para
 
 ## Contributing
 
-You need to have [Deep Dream](https://github.com/google/deepdream) working, which means having all of its dependencies installed like caffe. You will also need python 2.7 and PyQt4
+You need to have [Deep Dream](https://github.com/google/deepdream) working, which means having all of its dependencies installed like caffe and [SciPy](https://www.scipy.org/install.html). You will also need python 2.7 and PyQt4.
 
 The UI was made by using [Qt Designer](https://i.imgur.com/akMaZEy.png) because it is really fast and easy to use, aside from that fact that it is cross-platform compatible with Windows and OSx. You can edit the UI by editing the `GUI.ui` file. There's no need to compile anything, just saving your changes in Qt Designer will update the interface the next time you run the program since it is loaded dinamically. 
 

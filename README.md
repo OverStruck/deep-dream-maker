@@ -12,6 +12,48 @@ flexible and intuitive way to customize your dreams by specifying different para
 
 [Previous Image 1](https://i.imgur.com/E0aGgG6.png) | [Previous Image 2](https://i.imgur.com/WDzWfRE.png) | [Previous Image 3](https://i.imgur.com/MjHeCn2.png)
 
+## Installation (Ubuntu 20.04)
+
+You need to have [Deep Dream](https://github.com/google/deepdream) working, which means having all of its dependencies installed like caffe and [SciPy](https://www.scipy.org/install.html). You will also need python 2.7 and PyQt4.
+
+### Install python 2.7
+`sudo apt install python2 python2-dev`
+
+If you get error `ImportError: No module named PIL.Image` you need to install Python Imaging Library (PIL)
+
+Pip for Python 2 is not included in the Ubuntu 20.04 repositories. We’ll be installing pip for Python 2 using the get-pip.py script.
+
+Use curl to download the get-pip.py script: `curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py`
+
+Run the script as sudo user with python2 to install pip for Python 2:
+`sudo python2 get-pip.py`
+
+Pip will be installed globally. If you want to install it only for your user, run the command without sudo. The script will also install setuptools and wheel, which allow you to install source distributions.
+
+Once you have pip install, you can run `pip install image` to get rid of the error
+
+### Install python PyQt4
+The Qt4 framework has been removed from Ubuntu 20.04. You will need to manually compile and install. Please see:
+[Installing PyQt4](https://het.as.utexas.edu/HET/Software/PyQt/installation.html)
+
+To compile PyQt4 you will need SIP. You can download it using:
+
+`wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.23/sip-4.19.23.tar.gz`
+ 
+ Upzip: `tar -xvf sip-4.19.23.tar.gz ` and `cd sip-4.19.23`
+ 
+ Then:
+ `python configure.py` then `make` then `sudo make install`
+ 
+ Now SIP should be installed. 
+ 
+ #### Installing PyQt4 from source
+ `wget https://www.riverbankcomputing.com/static/Downloads/PyQt4/4.12.3/PyQt4_gpl_x11-4.12.3.tar.gz`
+ Unzip: `tar -xvf PyQt4_gpl_x11-4.12.3.tar.gz` then `cd PyQt4_gpl_x11-4.12.3`
+ Now: 
+ 
+
+
 ## Contributing
 
 You need to have [Deep Dream](https://github.com/google/deepdream) working, which means having all of its dependencies installed like caffe and [SciPy](https://www.scipy.org/install.html). You will also need python 2.7 and PyQt4.

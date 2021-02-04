@@ -1,0 +1,21 @@
+.form div {
+  margin: 5px 0;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 5px;
+}
+
+.controls>* {
+  margin: 5px 0;
+}
+
+.interface {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+}

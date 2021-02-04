@@ -1,0 +1,38 @@
+.parameters {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.title {
+    composes: title from '../../utils.css';
+}
+
+.button {
+    composes: button from '../../utils.css';
+}
+
+.control {
+    display: flex;
+}
+
+.control input[type=number] {
+    width: 25px;
+}
+
+.parameters input {
+    color: rgb(161, 236, 251);
+    border: 1px solid #acf9fb;
+    background-color: transparent;
+    padding: 5px;
+}
+
+.parameters input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.parameters input[type="number"]::-webkit-inner-spin-button,
+.parameters input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}

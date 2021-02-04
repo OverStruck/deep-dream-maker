@@ -1,0 +1,9 @@
+.previewImage {
+    width:500px;
+    height:500px;
+    background-image: url('icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: rgba(240, 248, 255, 0.431);
+  }

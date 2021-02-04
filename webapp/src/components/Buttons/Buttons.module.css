@@ -1,0 +1,8 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  composes: button from '../../utils.css';
+}

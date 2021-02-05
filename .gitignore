@@ -646,3 +646,6 @@ MigrationBackup/
 # Ignore all local history of files
 .history
 .ionide
+
+#enclude this file
+!webapp/src/components/PreviewImage/icon.png

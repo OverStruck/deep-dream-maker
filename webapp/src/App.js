@@ -7,9 +7,11 @@ import NavBar from "./components/NavBar"
 
 
 export default function App() {
-    <>
-    <NavBar />
-    <Route path="/"><Home /></Route>
-    <Route path="/about"><About /></Route>
-    </>
+    return (
+        <>
+            <NavBar />
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/about"><About /></Route>
+        </>
+    );
 }

@@ -3,10 +3,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-import FileDialogue from '../FileSelector/FileSelector';
-import Console from '../Console/Console';
-import ParameterFields from '../ParameterFields/ParameterFields';
-import ProgressBar from '../ProgressBar/ProgressBar';
+import FileDialogue from './FileSelector';
+import Console from './Console';
+import ParameterFields from './ParameterFields';
+import ProgressBar from './ProgressBar';
 
 
 class Inputs extends React.Component {
@@ -22,7 +22,7 @@ class Inputs extends React.Component {
 
     render() {
         return (
-            <Grid item container direction="column" spacing={1} xs={6} style={{ maxHeight: 512 }}>
+            <Grid item container direction="column" spacing={1} xs={6} style={{ maxHeight: 512 }} >
                 <FileDialogue handleUpload={this.props.onFileSelect} />
                 <ParameterFields data={this.props.parameters} />
 
@@ -31,14 +31,14 @@ class Inputs extends React.Component {
                     <ButtonGroup variant="contained" color="primary" size="large" fullWidth>
                         <Button disabled={this.props.dreaming} onClick={this.props.onMakeItDream}>Make it Dream</Button>
                         <Button disabled={!this.props.dreaming} onClick={this.props.onStopDream}>Stop Dream</Button>
-                        <Button disabled={!this.props.canDownload} >Download Dream</Button>
+                        <Button disabled={!this.props.canDownload} onClick={this.props.onDownload} >Download Dream</Button>
                     </ButtonGroup>
                 </Grid>
 
                 {/* Progress bar */}
                 <Grid item>
                     {/* <LinearProgress variant="determinate" color="secondary" value={50} /> */}
-                    <ProgressBar ref={this.progressBarRef} console={this.consoleRef} />
+                    <ProgressBar run={this.props.running} onFinish={this.props.onFinish} console={this.consoleRef} />
                 </Grid>
 
                 {/* Console */}

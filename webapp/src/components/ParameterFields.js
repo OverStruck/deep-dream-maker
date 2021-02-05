@@ -16,11 +16,18 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 0
   },
   inputField: {
+    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none",
+      margin: 0
+    },
     appearance: "textfield",
-    width: 25
+    width: 40,
+    margin: 0,
+    textAlign:"center"
   }
 }));
 
+//small buttons next to input field to increase/decrease value
 function SmallButton({ text, onClick, name }) {
   const { smallButton } = useStyles();
   return <Button
@@ -33,6 +40,7 @@ function SmallButton({ text, onClick, name }) {
   </Button>
 }
 
+//input[number] element for parameters input
 function InputBox({ label, step, min, value, onChange }) {
   const { inputField } = useStyles();
 
@@ -57,10 +65,10 @@ function ParameterField({ label, step, value, callBacks }) {
   const handleDecrement = (e) => {
     e.preventDefault();
     const id = label.toLowerCase().replace(/ /g, '');
-    console.log(id)
     let offSet = step === 1 ? 1 : 0.1;
     offSet = value - offSet;
     offSet = Math.round(offSet * 10) / 10;
+    offSet = offSet > 0 ? offSet : step;
     //update state in parent component
     callBacks.onButtonChange(id, offSet);
   }

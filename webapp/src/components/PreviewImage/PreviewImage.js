@@ -1,6 +1,20 @@
 import React from 'react';
-import styles from './PreviewImage.module.css';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import background from "./icon.png";
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const ImageContainerStyled = withStyles({
+    root: {
+        width: 500,
+        height: 500,
+        backgroundImage: `url(${background})`, 
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        backgroundColor: "rgba(240, 248, 255, 0.431)"
+    }
+})(Box);
 
 class PreviewImage extends React.Component {
     constructor(props) {
@@ -11,8 +25,8 @@ class PreviewImage extends React.Component {
         }
     }
 
-    start() {
-        if (!this.state.running) {
+    componentDidUpdate() {
+        if (!this.state.running && this.props.run) {
             this.setState({ running: true })
             this.interval = setInterval(() => this.getProgress(), 1000);
         }
@@ -49,7 +63,7 @@ class PreviewImage extends React.Component {
                 else if (data.image !== "") {
                     this.setImage(this.decodeImage(data.image));
                     let msg = `Updated preview image [${data.progress.toFixed(2)}% done...]`
-                    this.props.console.current.add(msg)
+                    this.props.onLog(msg);
                 }
             })
             .catch((error) => this.stop(error));
@@ -61,8 +75,8 @@ class PreviewImage extends React.Component {
 
     render() {
         return (
-            <Grid item xs={6} >
-                <div className={styles.previewImage} ref={this.ref}></div>
+            <Grid container item xs={6} justify="center">
+                <ImageContainerStyled ref={this.ref} />
             </Grid>
         );
     }

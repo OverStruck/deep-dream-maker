@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
+import App from './components/Home';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import { lightBlue } from "@material-ui/core/colors";
+import { BrowserRouter } from "react-router-dom";
 
 const theme = createMuiTheme({
   palette: {
     type: "dark",
-    primary: lightBlue
-    //secondary:
+    primary: {
+      main: "#1f4068"
+    },
+    secondary: {
+      main: "#e43f5a"
+    }
     //error:
     //warning:
     //info:
-    //sucess:
+    //success:
   }
 });
 
@@ -23,7 +26,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,20 +1,16 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid';
-import { lightBlue } from "@material-ui/core/colors";
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
+const ContainerStyled = withStyles({
   root: {
-    backgroundColor: lightBlue[900],
+    backgroundColor: "#1f4068",
     fontFamily: "monospace",
-    color: "white",
-    flexGrow: 0,
     flexBasis: "50%",
-    overflow: "auto"
-  },
-});
+    overflow: "auto",
+    padding: 5
+  }
+})(Paper);
 
 class Console extends React.Component {
   constructor(props) {
@@ -30,17 +26,19 @@ class Console extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <Grid item className={classes.root} ref={this.ref} >
+      // <Grid item className={classes.root} ref={this.ref} >
+      <ContainerStyled variant="outlined" ref={this.ref}>
         <div>DeepDream Maker ready... </div>
-      </Grid>
+      </ContainerStyled>
+      // </Grid>
     );
   }
 }
 
-Console.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// Console.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
-export default withStyles(styles)(Console);
+//export default withStyles(styles)(Console);
+export default Console;

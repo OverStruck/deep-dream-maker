@@ -9,7 +9,11 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles({
   title: {
-    flexGrow: .95
+    flexGrow: .95,
+    "& a": {
+      color: "white",
+      textDecoration: "none"
+    }
   },
   customHeight: {
     minHeight: 70
@@ -25,8 +29,8 @@ function NavBar() {
       <Container fixed>
         <Toolbar>
           <Typography variant="h4" className={classes.title}>
-            Deep Dream Maker
-                </Typography>
+            <Link to="/">DeepDream Maker</Link>
+          </Typography>
           <ButtonGroup size="small" variant="text">
             <Button onClick={() => { window.open(whatIsDeepDream, "_blank") }}>What is DeepDream?</Button>
             <Button onClick={() => { window.open(gitHubRepository, "_blank") }}>Fork me on Github</Button>

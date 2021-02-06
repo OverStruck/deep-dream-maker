@@ -1,6 +1,6 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Grid from '@material-ui/core/Grid';
 
 const ContainerStyled = withStyles({
   root: {
@@ -8,9 +8,9 @@ const ContainerStyled = withStyles({
     fontFamily: "monospace",
     flexBasis: "50%",
     overflow: "auto",
-    padding: 5
+    flexWrap: "nowrap"
   }
-})(Paper);
+})(Grid);
 
 class Console extends React.Component {
   constructor(props) {
@@ -27,10 +27,10 @@ class Console extends React.Component {
 
   render() {
     return (
-      // <Grid item className={classes.root} ref={this.ref} >
-      <ContainerStyled variant="outlined" ref={this.ref}>
-        <div>DeepDream Maker ready... </div>
-      </ContainerStyled>
+      // <Grid item  >
+        <ContainerStyled direction="column" container item ref={this.ref}>
+          <Grid item >DeepDream Maker ready... </Grid>
+        </ContainerStyled>
       // </Grid>
     );
   }

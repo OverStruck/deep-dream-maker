@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Container from '@material-ui/core/Container';
 
 import Home from "./components/Home"
 import About from "./components/About"
@@ -10,8 +11,10 @@ export default function App() {
     return (
         <>
             <NavBar />
-            <Route exact path="/"><Home /></Route>
-            <Route exact path="/about"><About /></Route>
+            <Container fixed>
+                <Route exact path="/"><Home /></Route>
+                <Route exact path="/about"><About /></Route>
+            </Container>
         </>
     );
 }

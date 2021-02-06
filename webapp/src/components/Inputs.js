@@ -4,8 +4,9 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import FileDialogue from './FileSelector';
+import LayerSelector from "./ParameterFields/LayerSelector"
 import Console from './Console';
-import ParameterFields from './ParameterFields';
+import ParameterFields from './ParameterFields/ParameterFields';
 import ProgressBar from './ProgressBar';
 
 
@@ -22,10 +23,10 @@ class Inputs extends React.Component {
 
     render() {
         return (
-            <Grid item container direction="column" spacing={1} xs={6} style={{ maxHeight: 512 }} >
+            <Grid item container direction="column" spacing={1} xs={6} style={{ maxHeight: 512 }} wrap="nowrap">
                 <FileDialogue handleUpload={this.props.onFileSelect} />
                 <ParameterFields data={this.props.parameters} />
-
+                <LayerSelector data={this.props.layerSelector} />
                 {/* Main control buttons */}
                 <Grid item container>
                     <ButtonGroup variant="contained" color="primary" size="large" fullWidth>

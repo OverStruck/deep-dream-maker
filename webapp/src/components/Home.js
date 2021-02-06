@@ -31,7 +31,8 @@ class Home extends React.Component {
         octavescale: 1.4,
         jitter: 32,
         stepsize: 1.5
-      }
+      },
+      layer: "conv2/norm2"
     };
     this.userFile = null;
     this.inputsRef = React.createRef();
@@ -56,6 +57,7 @@ class Home extends React.Component {
       formData.append(name, value)
     }
     formData.append("file", this.userFile);
+    formData.append("layer", this.state.layer);
     this.sendToServer(formData);
     this.setState({ dreaming: true });
   }
@@ -148,6 +150,10 @@ class Home extends React.Component {
     this.setState({ parameters })
   }
 
+  updateLayer(e) {
+    this.setState({layer: e.target.value})
+  }
+
   handleCloseDialog(e) {
     this.setState({ error: false });
   }
@@ -174,6 +180,10 @@ class Home extends React.Component {
           onInputChange: this.handleChange.bind(this),
         },
         state: this.state.parameters
+      },
+      layerSelector: {
+          onChange: this.updateLayer.bind(this),
+          value: this.state.layer
       }
     }
 

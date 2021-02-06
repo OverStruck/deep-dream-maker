@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     appearance: "textfield",
     width: 40,
     margin: 0,
-    textAlign:"center"
+    textAlign: "center"
   }
 }));
 
@@ -109,7 +109,7 @@ function ParameterFields({ data }) {
   const classes = useStyles();
   const { iterations, octaves, octavescale, jitter, stepsize } = data.state;
   return (
-    <Grid item>
+    <Grid container item>
       <div className={classes.smallHeading} >DeepDream parameters:</div>
       <Grid container justify="space-evenly">
         <ParameterField label="Iterations" step={1} value={iterations} callBacks={data.callBacks} />

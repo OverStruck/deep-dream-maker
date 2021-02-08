@@ -1,35 +1,56 @@
-import os
+import caffe
 import PIL.Image
 import numpy as np
-from deepdream import deepdream, net
+from os import path
+from deepdream import DeepDream
+from google.protobuf import text_format
 from multiprocessing import Process, Queue, Value
 
 
 class DeepDreamProcess:
-    def __init__(self, inputImg, outputLoc, args):
-        # self.progress = Queue()
+    def __init__(self):
         self.progress = Value("i", 0)
-        self.previewImg = Queue()
-        self.inputImg = inputImg
-        self.outputLoc = outputLoc
+        self.previewImage = Queue()
+        self.net = self.loadNet()
+
+    def loadNet(self):
+        # set up correct path for required files
+        fn = "caffe/deploy.prototxt"
+        fn2 = "caffe/bvlc_googlenet.caffemodel"
+        net_fn = path.join(path.dirname(__file__), fn)
+        param_fn = path.join(path.dirname(__file__), fn2)
+
+        # Patching model to be able to compute gradients.
+        # Note that you can also manually add "force_backward: true" line to "deploy.prototxt".
+        model = caffe.io.caffe_pb2.NetParameter()
+        text_format.Merge(open(net_fn).read(), model)
+        model.force_backward = True
+        open("tmp.prototxt", "w").write(str(model))
+
+        return caffe.Classifier(
+            "tmp.prototxt",
+            param_fn,
+            # ImageNet mean, training set dependent
+            mean=np.float32([104.0, 116.0, 122.0]),
+            # the reference model has channels in BGR order instead of RGB
+            channel_swap=(2, 1, 0),
+        )
+
+    def setParams(self, inputImage, outputLocation, args):
         self.args = args
+        self.inputImage = inputImage
+        self.outputLocation = outputLocation
         self.totalWork = args["iterations"] * args["octaves"]
 
-    def deepDreamMaker(self, inputImg, outputLoc, args, progress, previewImg):
+    def deepDreamMaker(self, args, inputImage, progress, previewImg):
         print("Running ACTUAL DEEP DREAM")
-        image = PIL.Image.open(inputImg).convert("RGB")
+        image = PIL.Image.open(inputImage).convert("RGB")
         image = np.float32(image)
         # actually run google's deepdream
-        dream = deepdream(
-            net,
+        dd = DeepDream(self.net)
+        dream = dd.deepdream(
             image,
-            args["iterations"],
-            args["octaves"],
-            args["octaveScale"],
-            args["layers"],
-            True,
-            args["jitter"],
-            args["stepSize"],
+            args,
             progress,
             previewImg,
         )
@@ -37,25 +58,22 @@ class DeepDreamProcess:
 
     def saveDream(self, dream, fmt="JPEG"):
         image = np.uint8(dream)
-        PIL.Image.fromarray(image, "RGB").save(self.outputLoc, fmt)
+        PIL.Image.fromarray(image, "RGB").save(self.outputLocation, fmt)
         print("Dream saved to disk")
 
     def run(self):
         print("Starting DeepDream Thread")
-        # self.progress.put(1)
         self.process = Process(
             target=self.deepDreamMaker,
             args=(
-                self.inputImg,
-                self.outputLoc,
                 self.args,
+                self.inputImage,
                 self.progress,
-                self.previewImg,
+                self.previewImage,
             ),
         )
         self.process.daemon = True
         self.process.start()
-        # self.process.join()  # wait for process
 
     def isAlive(self):
         return self.process.is_alive()
@@ -68,13 +86,18 @@ class DeepDreamProcess:
         return round(((p * 1.0) / self.totalWork) * 100, 2)
 
     def getPreviewImg(self):
-        if self.previewImg.empty() is False:
-            return self.previewImg.get()
+        if self.previewImage.empty() is False:
+            return self.previewImage.get()
         else:
             return None
 
     def getDreamPath(self):
-        return self.outputLoc
+        return self.outputLocation
 
     def hadError(self):
         return self.process.exitcode
+
+    def clearQueue(self):
+        while not self.previewImage.empty():
+            self.previewImage.get()
+

@@ -1,20 +1,19 @@
-import os
-from flask_cors import CORS, cross_origin
+import config
+from os import path
+from flask_cors import CORS
 from werkzeug.exceptions import BadRequest
-from deepDreamProcess import DeepDreamProcess
 from flask_restx import Resource, Api, reqparse
 from werkzeug.datastructures import FileStorage
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, send_from_directory
 
-UPLOAD_FOLDER = "./user_images"
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+from DeepDreamProcess import DeepDreamProcess
+
+basedir = path.abspath(path.dirname(__file__))
 
 server = Flask(__name__)
-server.debug = True
-server.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-# server.config["ERROR_INCLUDE_MESSAGE"] = False
+server.config.from_object(config.DevelopmentConfig)
 
-api = Api(server, prefix="/api/v1")
+api = Api(server, prefix=server.config['API_PREFIX'])
 
 CORS(server)
 
@@ -23,9 +22,11 @@ serverReqP = reqparse.RequestParser(
     trim=True,
 )
 
+deepDreamMaker = DeepDreamProcess()
+
 # only allow images to be proccessed
 def allowedFile(fileName):
-    return "." in fileName and fileName.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in fileName and fileName.rsplit(".", 1)[1].lower() in server.config["ALLOWED_EXTENSIONS"]
 
 
 # make sure file is valid
@@ -47,26 +48,23 @@ def checkFile(file=None):
 def processFile(args):
     file = args["file"]
     # save file
-    localFile = os.path.join(server.config["UPLOAD_FOLDER"], file.filename)
+    localFile = path.join(server.config["UPLOAD_FOLDER"], file.filename)
     file.save(localFile)
-    deepDreamArgs = {
-        "iterations": args["iterations"],
-        "octaves": args["octaves"],
-        "octaveScale": args["octavescale"],
-        "layers": "inception_4c/output",
-        "jitter": args["jitter"],
-        "stepSize": args["stepsize"],
-    }
-    fileNameParts = os.path.splitext(file.filename)
+
+    # create new file name
+    fileNameParts = path.splitext(file.filename)
     newFileName = fileNameParts[0] + "_dreamyfied" + fileNameParts[1]
-    saveLocation = os.path.join(server.config["UPLOAD_FOLDER"], newFileName)
-    return runDeepDream(localFile, saveLocation, deepDreamArgs, newFileName)
+
+    # set saving location for new file
+    saveLocation = path.join(server.config["UPLOAD_FOLDER"], newFileName)
+    return runDeepDream(localFile, saveLocation, args, newFileName)
 
 
 def runDeepDream(inputFile, saveLocation, args, newFileName):
-    global dd
-    dd = DeepDreamProcess(inputFile, saveLocation, args)
-    dd.run()
+    # we do not need this anymore
+    args.pop("file")
+    deepDreamMaker.setParams(inputFile, saveLocation, args)
+    deepDreamMaker.run()
     return {
         "message": "Processing image, this may take a while...",
         "fileName": newFileName,
@@ -77,13 +75,12 @@ def runDeepDream(inputFile, saveLocation, args, newFileName):
 class processImage(Resource):
     def post(self):
         # From POST body
-        serverReqP.add_argument(
-            "octavescale", type=float, location="form", required=True
-        )
+        serverReqP.add_argument("octavescale", type=float, location="form", required=True)
         serverReqP.add_argument("iterations", type=int, location="form", required=True)
         serverReqP.add_argument("octaves", type=int, location="form", required=True)
         serverReqP.add_argument("jitter", type=int, location="form", required=True)
         serverReqP.add_argument("stepsize", type=float, location="form", required=True)
+        serverReqP.add_argument("layer", location="form", required=True)
         # From file uploads
         serverReqP.add_argument(
             "file",
@@ -104,22 +101,20 @@ class processImage(Resource):
 @api.route("/getProgress")
 class getProgress(Resource):
     def get(self):
-        global dd
-        if not dd.isAlive() and dd.hadError():
+        if not deepDreamMaker.isAlive() and deepDreamMaker.hadError():
             raise BadRequest("Something bad happened and we don't know what it was :(")
 
-        return {"progress": str(dd.getProgress())}
+        return {"progress": str(deepDreamMaker.getProgress())}
 
 
 @api.route("/getPreviewImage")
 class getPreviewImage(Resource):
     def get(self):
-        global dd
-        preview = dd.getPreviewImg()
+        preview = deepDreamMaker.getPreviewImg()
         if preview is not None:
             return {"image": preview[0], "progress": preview[1], "done": False}
 
-        if not dd.isAlive():
+        if not deepDreamMaker.isAlive():
             return {"done": True}
 
         return {"image": "", "done": False}
@@ -128,7 +123,7 @@ class getPreviewImage(Resource):
 @api.route("/downloadImage/<string:fileName>")
 class downloadImage(Resource):
     def get(self, fileName):
-        location = os.path.join(os.getcwd(), server.config["UPLOAD_FOLDER"])
+        location = path.join(basedir, server.config["UPLOAD_FOLDER"])
         try:
             return send_from_directory(location, fileName, as_attachment=True)
         except Exception as e:
@@ -138,10 +133,7 @@ class downloadImage(Resource):
 @api.route("/stopDream")
 class stopDream(Resource):
     def get(self):
-        global dd
-        dd.killProcess()
+        deepDreamMaker.killProcess()
+        deepDreamMaker.clearQueue()
         return {"message": "Dreamed stopped :("}
 
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", debug=True)

@@ -2,8 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import Container from '@material-ui/core/Container';
 
-import Home from "./components/Home"
-import About from "./components/About"
+import Home from "./routes/Home"
+import About from "./routes/About"
 import NavBar from "./components/NavBar"
 
 

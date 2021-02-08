@@ -4,9 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import Inputs from "./Inputs";
-import MessageDialog from "./MessageDialog"
-import PreviewImage from './PreviewImage/PreviewImage';
+import Inputs from "../components/Inputs";
+import MessageDialog from "../components/MessageDialog"
+import PreviewImage from '../components/PreviewImage/PreviewImage';
 
 const styles = theme => ({
   root: {
@@ -32,7 +32,7 @@ class Home extends React.Component {
         jitter: 32,
         stepsize: 1.5
       },
-      layer: "conv2/norm2"
+      layer: "inception_4c/output"
     };
     this.userFile = null;
     this.inputsRef = React.createRef();
@@ -116,8 +116,6 @@ class Home extends React.Component {
               this.log(data.message);
               this.dreamifiedFile = data.fileName;
               this.setState({running: true});
-              //start preview image fetch update
-              //this.PreviewImageRef.current.start();
             })
             .catch((error) => alert(error));
         }

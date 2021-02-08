@@ -15,15 +15,12 @@ services:
    container_name: deep-dream-maker-server
    build: 
      context: './server'
-     dockerfile: Dockerfile
-   volumes:
-     - './server:/app'
+     dockerfile: Dockerfile.prod
    ports: 
      - 3002:5000
    environment:
      - NVIDIA_VISIBLE_DEVICES=all
-     - FLASK_DEBUG=1
-     - PYTHONUNBUFFERED=1
+     - FLASK_ENV=development
 
 
   

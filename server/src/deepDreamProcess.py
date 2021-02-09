@@ -12,6 +12,7 @@ class DeepDreamProcess:
         self.progress = Value("i", 0)
         self.previewImage = Queue()
         self.net = self.loadNet()
+        self.process = None
 
     def loadNet(self):
         # set up correct path for required files

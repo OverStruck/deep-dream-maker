@@ -1,12 +1,12 @@
 import config
-from os import path
+from os import getcwd, path, makedirs
 from flask_cors import CORS
 from werkzeug.exceptions import BadRequest
 from flask_restx import Resource, Api, reqparse
 from werkzeug.datastructures import FileStorage
 from flask import Flask, send_from_directory
 
-from DeepDreamProcess import DeepDreamProcess
+from deepDreamProcess import DeepDreamProcess
 
 basedir = path.abspath(path.dirname(__file__))
 
@@ -49,6 +49,7 @@ def processFile(args):
     file = args["file"]
     # save file
     localFile = path.join(server.config["UPLOAD_FOLDER"], file.filename)
+    if not path.isdir(server.config["UPLOAD_FOLDER"]): makedirs(server.config["UPLOAD_FOLDER"])
     file.save(localFile)
 
     # create new file name
@@ -123,9 +124,9 @@ class getPreviewImage(Resource):
 @api.route("/downloadImage/<string:fileName>")
 class downloadImage(Resource):
     def get(self, fileName):
-        location = path.join(basedir, server.config["UPLOAD_FOLDER"])
+        location = path.join(getcwd(), server.config["UPLOAD_FOLDER"])
         try:
-            return send_from_directory(location, fileName, as_attachment=True)
+            return send_from_directory(location, fileName, as_attachment=True, cache_timeout=0)
         except Exception as e:
             raise BadRequest("The file you're trying to download doesn't exist!")
 

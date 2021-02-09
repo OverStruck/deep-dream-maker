@@ -2,6 +2,7 @@ version: '3'
 
 services:
   webapp:
+    image: deep-dream-maker-webapp:prod
     container_name: deep-dream-maker-webapp
     build:
       context: './webapp'
@@ -12,13 +13,14 @@ services:
       - 1337:80
 
   server:
-   container_name: deep-dream-maker-server
-   build: 
-     context: './server'
-     dockerfile: Dockerfile.prod
-   ports: 
-     - 3002:5000
-   environment:
+    image: deep-dream-maker-server:prod
+    container_name: deep-dream-maker-server
+    build: 
+      context: './server'
+      dockerfile: Dockerfile.prod
+    ports: 
+      - 3002:5000
+    environment:
      - NVIDIA_VISIBLE_DEVICES=all
      - FLASK_ENV=development
 

@@ -5,15 +5,11 @@
 	Originally to be used by a jupyter notebook
 	We have removed out all unnecessary code
 """
-import os
-import io
 import base64
-
-import caffe
 import PIL.Image
 import numpy as np
+from io import BytesIO
 import scipy.ndimage as nd
-from google.protobuf import text_format
 
 class DeepDream:
     def __init__(self, net):
@@ -28,7 +24,6 @@ class DeepDream:
 
     def objective_L2(self, dst):
         dst.diff[:] = dst.data
-
 
     def make_step(self, args):
         # Basic gradient ascent step
@@ -72,7 +67,6 @@ class DeepDream:
         finalRun = args["iterations"] * args["octaves"]
 
         for octave, octave_base in enumerate(octaves[::-1]):
-            print("a")
             h, w = octave_base.shape[-2:]
             if octave > 0:
                 # upscale details from the previous octave
@@ -93,7 +87,7 @@ class DeepDream:
                 if (totalRuns % 10 == 0 or totalRuns == finalRun) and previewImg is not None:
                     vis = self.deprocess(src.data[0])
                     img = np.uint8(np.clip(vis, 0, 255))
-                    buf = io.BytesIO()
+                    buf = BytesIO()
                     PIL.Image.fromarray(img, "RGB").save(buf, format="JPEG")
                     encoded_img = base64.b64encode(buf.getvalue())
                     preImgProgress = round(((totalRuns * 1.0) / finalRun) * 100, 2)

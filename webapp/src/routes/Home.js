@@ -59,45 +59,45 @@ class Home extends React.Component {
     formData.append("file", this.userFile);
     formData.append("layer", this.state.layer);
     this.sendToServer(formData);
-    this.setState({ dreaming: true });
+    //this.setState({ dreaming: true });
   }
 
   stopDream(e) {
     e.preventDefault();
     this.log("Stopping Dream...")
-    this.setState({running: false, dreaming: false, canDownload: false})
+    this.setState({ running: false, dreaming: false, canDownload: false })
     fetch('http://localhost:3002/api/v1/stopDream')
-        .then(res => res.json())
-        .then(data => this.log(data.message))
+      .then(res => res.json())
+      .then(data => this.log(data.message))
   }
 
   downloadDream() {
     if (this.dreamifiedFile !== null) {
       let url = "http://localhost:3002/api/v1/downloadImage/";
       fetch(url + this.dreamifiedFile)
-      .then(response => response.blob())
-      .then(blob => {
-        let a = document.createElement("a");
-        a.href = window.URL.createObjectURL(blob);
-        a.setAttribute("download", this.dreamifiedFile);
-        a.click();
-      })
+        .then(response => response.blob())
+        .then(blob => {
+          let a = document.createElement("a");
+          a.href = window.URL.createObjectURL(blob);
+          a.setAttribute("download", this.dreamifiedFile);
+          a.click();
+        })
     }
-   else {
+    else {
       alert("Error... don't know what happened :/")
     }
   }
 
   handleErrors(res) {
     if (res.errors) {
-        if (res.message === "Input payload validation failed") {
-            throw Error(res.errors.file);
-        }
+      if (res.message === "Input payload validation failed") {
+        throw Error(res.errors.file);
+      }
     } else {
-        throw Error(res.message);
+      throw Error(res.message);
     }
     return res;
-}
+  }
 
   //send image to server
   sendToServer(data) {
@@ -115,7 +115,7 @@ class Home extends React.Component {
             .then(data => {
               this.log(data.message);
               this.dreamifiedFile = data.fileName;
-              this.setState({running: true});
+              this.setState({ running: true });
             })
             .catch((error) => alert(error));
         }
@@ -149,7 +149,7 @@ class Home extends React.Component {
   }
 
   updateLayer(e) {
-    this.setState({layer: e.target.value})
+    this.setState({ layer: e.target.value })
   }
 
   handleCloseDialog(e) {
@@ -157,7 +157,7 @@ class Home extends React.Component {
   }
 
   onFinish() {
-    this.setState({running: false, dreaming: false, canDownload: true})
+    this.setState({ running: false, dreaming: false, canDownload: true })
   }
 
   render() {
@@ -180,8 +180,8 @@ class Home extends React.Component {
         state: this.state.parameters
       },
       layerSelector: {
-          onChange: this.updateLayer.bind(this),
-          value: this.state.layer
+        onChange: this.updateLayer.bind(this),
+        value: this.state.layer
       }
     }
 
@@ -191,7 +191,7 @@ class Home extends React.Component {
           <Grid container direction="column" spacing={1} className={classes.root} >
             <Grid container item spacing={1} justify="space-evenly">
               <Inputs {...ajix} ref={this.inputsRef} />
-              <PreviewImage  run={this.state.running} ref={this.prevImgRef} onLog={this.log.bind(this)} />
+              <PreviewImage run={this.state.running} ref={this.prevImgRef} onLog={this.log.bind(this)} />
             </Grid>
           </Grid>
         </Container>

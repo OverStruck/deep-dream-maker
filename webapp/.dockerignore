@@ -1,0 +1,16 @@
+*/node_modules/
+*/build/
+*/.git/
+.gitignore
+Dockerfile*
+docker-compose*
+.gitlab-ci.yml
+.editorconfig
+README.md
+LICENSE
+.vscode
+# Logs
+logs
+*.log
+# Coverage directory used by tools like istanbul
+coverage

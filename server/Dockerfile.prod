@@ -1,0 +1,11 @@
+FROM bvlc/caffe:cpu
+WORKDIR /app
+# install dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+COPY . .
+# setup enviroment
+EXPOSE 5000
+# run uWSGI with app.init
+WORKDIR src
+CMD [ "uwsgi", "--ini", "app.ini"]

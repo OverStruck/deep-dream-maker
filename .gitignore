@@ -649,3 +649,4 @@ MigrationBackup/
 
 #enclude this file
 !webapp/src/components/PreviewImage/icon.png
+!docs/images/*

@@ -22,7 +22,7 @@ services:
       - 3002:5000
     environment:
      - NVIDIA_VISIBLE_DEVICES=all
-     - FLASK_ENV=development
+     - FLASK_ENV=production
 
 
   

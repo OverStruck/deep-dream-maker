@@ -59,7 +59,7 @@ class Home extends React.Component {
     formData.append("file", this.userFile);
     formData.append("layer", this.state.layer);
     this.sendToServer(formData);
-    //this.setState({ dreaming: true });
+    this.setState({ dreaming: true });
   }
 
   stopDream(e) {

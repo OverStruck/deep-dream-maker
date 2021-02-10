@@ -1,10 +1,22 @@
-import caffe
+
+import os
 import PIL.Image
 import numpy as np
-from os import path
 from deepdream import DeepDream
 from google.protobuf import text_format
 from multiprocessing import Process, Queue, Value
+
+###########################################
+# turn off caffe logging to console
+# The levels are
+# 0 - debug
+# 1 - info (still a LOT of outputs)
+# 2 - warnings
+# 3 - errors
+###########################################
+
+os.environ['GLOG_minloglevel'] = '2' 
+import caffe
 
 
 class DeepDreamProcess:
@@ -15,19 +27,21 @@ class DeepDreamProcess:
         self.process = None
 
     def loadNet(self):
+        
         # set up correct path for required files
         fn = "caffe/deploy.prototxt"
         fn2 = "caffe/bvlc_googlenet.caffemodel"
-        net_fn = path.join(path.dirname(__file__), fn)
-        param_fn = path.join(path.dirname(__file__), fn2)
+        net_fn = os.path.join(os.path.dirname(__file__), fn)
+        param_fn = os.path.join(os.path.dirname(__file__), fn2)
 
-        # Patching model to be able to compute gradients.
-        # Note that you can also manually add "force_backward: true" line to "deploy.prototxt".
-        model = caffe.io.caffe_pb2.NetParameter()
-        text_format.Merge(open(net_fn).read(), model)
-        model.force_backward = True
-        open("tmp.prototxt", "w").write(str(model))
-
+        if not os.path.exists("tmp.prototxt"):
+            # Patching model to be able to compute gradients.
+            # Note that you can also manually add "force_backward: true" line to "deploy.prototxt".
+            model = caffe.io.caffe_pb2.NetParameter()
+            text_format.Merge(open(net_fn).read(), model)
+            model.force_backward = True
+            open("tmp.prototxt", "w").write(str(model))
+        
         return caffe.Classifier(
             "tmp.prototxt",
             param_fn,

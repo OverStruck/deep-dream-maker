@@ -1,10 +1,10 @@
 import config
 from os import getcwd, path, makedirs
 from flask_cors import CORS
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, HTTPException
 from flask_restx import Resource, Api, reqparse
 from werkzeug.datastructures import FileStorage
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, json
 
 from deepDreamProcess import DeepDreamProcess
 
@@ -138,3 +138,14 @@ class stopDream(Resource):
         deepDreamMaker.clearQueue()
         return {"message": "Dreamed stopped :("}
 
+@server.errorhandler(HTTPException)
+def all_exception_handler(e):
+    # Return JSON instead of HTML for HTTP errors
+    response = e.get_response()
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response

@@ -98,7 +98,9 @@ class DeepDreamProcess:
 
     def getProgress(self):
         p = self.progress.value
-        return round(((p * 1.0) / self.totalWork) * 100, 2)
+        progress = round(((p * 1.0) / self.totalWork) * 100, 2)
+        if progress == 100.0: self.progress.value = 0
+        return progress
 
     def getPreviewImg(self):
         if self.previewImage.empty() is False:

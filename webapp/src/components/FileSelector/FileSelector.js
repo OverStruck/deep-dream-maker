@@ -3,22 +3,16 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Grid from '@material-ui/core/Grid';
 
-function buildFileSelector(handleUpload) {
-  const fileSelector = document.createElement('input');
-  fileSelector.setAttribute('type', 'file');
-  fileSelector.onchange = handleUpload;
-  return fileSelector;
-}
-
 class FileDialogue extends React.Component {
 
-  componentDidMount() {
-    this.fileSelector = buildFileSelector(this.props.handleUpload);
+  constructor(props) {
+    super(props);
+    this.inputElem = React.createRef();
   }
 
   handleFileSelect = (e) => {
     e.preventDefault();
-    this.fileSelector.click();
+    this.inputElem.current.click();
   }
 
   render() {
@@ -32,6 +26,11 @@ class FileDialogue extends React.Component {
           onClick={this.handleFileSelect} fullWidth>
           Select input image
         </Button>
+        <input ref={this.inputElem}
+          data-testid="fileHandler"
+          onChange={this.props.handleUpload}
+          type="file"
+          style={{ display: "none" }} />
       </Grid>
     );
   }

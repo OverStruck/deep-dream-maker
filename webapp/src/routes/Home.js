@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {processImage} from "../utils/ImageHandler"
+import { processImage } from "../utils/ImageHandler"
 import Inputs from "../components/Inputs";
-import MessageDialog from "../components/MessageDialog"
+import MessageDialog from "../components/MessageDialog";
 import PreviewImage from "../components/PreviewImage/PreviewImage";
+
+import { sendImage } from "../components/Api/Api";
 
 const styles = theme => ({
   root: {
@@ -66,14 +68,14 @@ class Home extends React.Component {
     e.preventDefault();
     this.log("Stopping Dream...")
     this.setState({ running: false, dreaming: false, canDownload: false })
-    fetch('http://localhost:3002/api/v1/stopDream')
+    fetch('http://localhost:6001/api/v1/stopDream')
       .then(res => res.json())
       .then(data => this.log(data.message))
   }
 
   downloadDream() {
     if (this.dreamifiedFile !== null) {
-      let url = "http://localhost:3002/api/v1/downloadImage/";
+      let url = "http://localhost:6001/api/v1/downloadImage/";
       fetch(url + this.dreamifiedFile)
         .then(response => response.blob())
         .then(blob => {
@@ -88,38 +90,20 @@ class Home extends React.Component {
     }
   }
 
-  handleErrors(res) {
-    if (res.errors) {
-      if (res.message === "Input payload validation failed") {
-        throw Error(res.errors.file);
-      }
-    } else {
-      throw Error(res.message);
-    }
-    return res;
+  handleErrors(error) {
+    this.setState({ error: true, errorMsg: error });
   }
 
   //send image to server
-  sendToServer(data) {
-    fetch('http://localhost:3002/api/v1/processImage', {
-      method: 'POST',
-      body: data
-    })
-      .then(response => {
-        if (!response.ok) {
-          response.json()
-            .then(this.handleErrors)
-            .catch((error) => alert(error));
-        } else {
-          response.json()
-            .then(data => {
-              this.log(data.message);
-              this.dreamifiedFile = data.fileName;
-              this.setState({ running: true });
-            })
-            .catch((error) => alert(error));
-        }
-      })
+  async sendToServer(data) {
+    try {
+      const {message, newFileName} = await sendImage(data);
+      this.log(message);
+      this.dreamifiedFile = newFileName;
+      this.setState({ running: true });
+    } catch (e) {
+      this.handleErrors(e.toString());
+    }
   }
 
   //handle user file section

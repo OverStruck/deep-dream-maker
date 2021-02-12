@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import background from "./icon.png";
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import { getPreviewImage } from "../Api/Api";
+
 const ImageContainerStyled = withStyles({
     root: {
         width: 500,
@@ -53,20 +55,21 @@ class PreviewImage extends React.Component {
         return URL.createObjectURL(image);
     }
 
-    getProgress() {
-        fetch(`http://localhost:3002/api/v1/getPreviewImage`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.done) {
-                    this.stop();
-                }
-                else if (data.image !== "") {
-                    this.setImage(this.decodeImage(data.image));
-                    let msg = `Updated preview image [${data.progress.toFixed(2)}% done...]`
-                    this.props.onLog(msg);
-                }
-            })
-            .catch((error) => this.stop(error));
+    async getProgress() {
+        try {
+            const {done, image, progress} = await getPreviewImage();
+            if (done) {
+                this.stop();
+            }
+            else if (image !== "") {
+                this.setImage(this.decodeImage(image));
+                const msg = `Updated preview image [${progress.toFixed(2)}% done...]`
+                this.props.onLog(msg);
+            }
+
+        } catch(e) {
+            this.stop(e.toString());
+        }
     }
 
     setImage(url) {
@@ -76,7 +79,7 @@ class PreviewImage extends React.Component {
     render() {
         return (
             <Grid container item xs={6} justify="center">
-                <ImageContainerStyled ref={this.ref} />
+                <ImageContainerStyled ref={this.ref} id="previewImage"/>
             </Grid>
         );
     }

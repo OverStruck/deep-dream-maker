@@ -28,7 +28,7 @@ Build run the services:
 Alternativetely you can also build the images and run them at the same time:
 `docker-compose up --build`
 
-After the containers are running and fully initialized, you can go to `http://localhost:3001/` in your favorite web broswer and start making deep dream images! 😊
+After the containers are running and fully initialized, you can go to `http://localhost:7777/` in your favorite web broswer and start making deep dream images! 😊
 
 ## Current state of the project
 DeepDream maker has been updated from version 1 to version 2. This new version uses Docker & Docker Compose to allow for a seamless experience.

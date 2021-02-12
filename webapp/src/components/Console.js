@@ -27,18 +27,10 @@ class Console extends React.Component {
 
   render() {
     return (
-      // <Grid item  >
-        <ContainerStyled direction="column" container item ref={this.ref}>
+        <ContainerStyled direction="column" container item ref={this.ref} data-testid="console">
           <Grid item >DeepDream Maker ready... </Grid>
         </ContainerStyled>
-      // </Grid>
     );
   }
 }
-
-// Console.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
-//export default withStyles(styles)(Console);
 export default Console;

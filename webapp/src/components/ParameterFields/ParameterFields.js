@@ -28,15 +28,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //small buttons next to input field to increase/decrease value
-function SmallButton({ text, onClick, name }) {
+function SmallButton({ facing, onClick, label }) {
   const { smallButton } = useStyles();
+  const ariaLabel = `${label}-${facing}`
   return <Button
-    name={name}
     onClick={onClick}
     color="primary"
     size="small"
-    className={smallButton}>
-    {text === "+" ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+    aria-label={ariaLabel}
+    className={smallButton}
+  >
+    {facing === "up" ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
   </Button>
 }
 
@@ -48,6 +50,7 @@ function InputBox({ label, step, min, value, onChange }) {
     step: step,
     min: min,
     className: inputField,
+    "aria-label": label
   }
   return <TextField
     type="number"
@@ -90,7 +93,7 @@ function ParameterField({ label, step, value, callBacks }) {
     <Grid item>
       <label htmlFor={id}>{label}</label>
       <span style={{ display: "flex" }}>
-        <SmallButton onClick={handleDecrement} text="-" name={id} />
+        <SmallButton onClick={handleDecrement} facing="down" label={id} />
         <InputBox
           label={id}
           step={step}
@@ -98,7 +101,7 @@ function ParameterField({ label, step, value, callBacks }) {
           value={value}
           onChange={callBacks.onInputChange}
         />
-        <SmallButton onClick={handleIncrement} text="+" />
+        <SmallButton onClick={handleIncrement} facing="up" label={id} />
       </span>
     </Grid>
   );

@@ -26,6 +26,13 @@ const resizeFile = file => new Promise(resolve => {
     );
 });
 
+// const resizeFile = file => new Promise(resolve => {
+//     Resizer.imageFileResizer(file, 1000, 1000, "jpeg", 100, 0,
+//         file =>  resolve(file),
+//         "file"
+//     );
+// });
+
 /*
     Resize image if needed
     Max allowed dimmensions: 1000x1000 pixels

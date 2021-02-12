@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress'
+import { getProgress } from "../Api/Api";
 
 const StyledProgressBar = withStyles({
     root: {
@@ -21,6 +22,9 @@ class ProgressBar extends React.Component {
         if (!this.state.running && this.props.run) {
             this.setState({ running: true })
             this.interval = setInterval(() => this.getProgress(), 200);
+        } else if (this.state.running && !this.props.run) {
+            clearInterval(this.interval);
+            this.setState({ running: false });
         }
     }
 
@@ -28,6 +32,7 @@ class ProgressBar extends React.Component {
         clearInterval(this.interval);
         this.props.onFinish();
         this.setState({ running: false });
+        console.log("pbar stopped")
         if (msg !== '') {
             console.error(msg);
             alert(msg);
@@ -38,30 +43,22 @@ class ProgressBar extends React.Component {
         this.props.console.current.add(msg, timeStamp);
     }
 
-    getProgress() {
-        fetch(`http://localhost:3002/api/v1/getProgress`)
-            .then(response => {
-                if (!response.ok) {
-                    response.json()
-                        .then(error => this.stop(error.message))
-                } else {
-                    response.json()
-                        .then(data => {
-                            let progress = parseFloat(data.progress);
-                            this.setState({ progress: progress })
-                            if (progress === 100.0) {
-                                this.stop();
-                                this.log("", false);
-                                this.log("----------------------------------", false);
-                                this.log("Done processing image", false);
-                                this.log("You can now downlaod your image :)", false);
-                                this.log("----------------------------------", false);
-                                this.log("", false);
-                            }
-                        })
-                        .catch((error) => this.stop(error));
-                }
-            })
+    async getProgress() {
+        try {
+            const progress = await getProgress();
+            this.setState({ progress: progress });
+            if (progress === 100.0) {
+                this.stop();
+                this.log("", false);
+                this.log("----------------------------------", false);
+                this.log("Done processing image", false);
+                this.log("You can now download your image :)", false);
+                this.log("----------------------------------", false);
+                this.log("", false);
+            }
+        } catch (e) {
+            this.stop(e.toString());
+        }
     }
 
     render() {

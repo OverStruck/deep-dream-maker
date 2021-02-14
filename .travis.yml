@@ -1,0 +1,18 @@
+sudo: required
+language: node_js
+services:
+  - docker
+node_js:
+  - "15.7"
+notifications:
+  email: true
+before_install: cd webapp
+cache:
+  directories:
+  - node_modules
+
+jobs:
+  include:
+    - stage: "Test Web App"
+      script: npm test -- --watchAll=false
+

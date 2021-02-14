@@ -5,6 +5,7 @@
 ![Issues](https://img.shields.io/github/issues/OverStruck/deep-dream-maker)
 ![Forks](https://img.shields.io/github/forks/OverStruck/deep-dream-maker)
 ![Stars](https://img.shields.io/github/stars/OverStruck/deep-dream-maker)
+[![Known Vulnerabilities](https://snyk.io/test/github/OverStruck/deep-dream-maker/badge.svg?targetFile=webapp/package.json)](https://snyk.io/test/github/OverStruck/deep-dream-maker/?targetFile=webapp/package.json)
 
 
 **DeepDream Maker** is a GUI Interface wrapper for [Google's Deep Dream](https://github.com/google/deepdream) and related python scripts

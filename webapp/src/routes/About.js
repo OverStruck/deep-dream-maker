@@ -26,7 +26,7 @@ function About() {
                 It allows you to easily dreamify images without needing to use a terminal and provides a flexible and intuitive way to customize your dreams by specifying different parameters.
             </Typography>
             <Typography variant="h6" align="left" display="block">Recommendations:</Typography>
-            <Typography paragraph display="block">
+            <Typography component={"div"} display="block">
                 The resolution of the image affects the output result.
                 <ul>
                     <li>Use small images whenever possible, depending on your system's resources the program may fail.</li>
@@ -36,7 +36,7 @@ function About() {
             </Typography>
 
             <Typography variant="h6" align="left" display="block">TODO:</Typography>
-            <Typography align="left" display="block">
+            <Typography component={"div"} align="left" display="block">
                 <ul>
                     <li><span className={classes.bold}>Add support to create animations</span>
                         <ul>

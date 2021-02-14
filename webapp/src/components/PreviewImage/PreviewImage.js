@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import background from "./icon.png";
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { getPreviewImage } from "../Api/Api";
+import { getPreviewImage } from "../../utils/Api";
 
 const ImageContainerStyled = withStyles({
     root: {
@@ -39,7 +39,7 @@ class PreviewImage extends React.Component {
         this.setState({ running: false });
         if (msg !== '') {
             console.error(msg);
-            alert(msg);
+            //alert(msg);
         }
     }
 
@@ -73,13 +73,14 @@ class PreviewImage extends React.Component {
     }
 
     setImage(url) {
+        //console.log(url)
         this.ref.current.style.backgroundImage = `url(${url})`;
     }
 
     render() {
         return (
             <Grid container item xs={6} justify="center">
-                <ImageContainerStyled ref={this.ref} id="previewImage"/>
+                <ImageContainerStyled ref={this.ref} role="img"/>
             </Grid>
         );
     }

@@ -4,11 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { processImage } from "../utils/ImageHandler"
-import Inputs from "../components/Inputs";
-import MessageDialog from "../components/MessageDialog";
+import Inputs from "../components/Inputs/Inputs";
+import MessageDialog from "../components/MessageDialog/MessageDialog";
 import PreviewImage from "../components/PreviewImage/PreviewImage";
 
-import { sendImage } from "../components/Api/Api";
+import { sendImage } from "../utils/Api";
 
 const styles = theme => ({
   root: {
@@ -107,18 +107,15 @@ class Home extends React.Component {
   }
 
   //handle user file section
-  handleFile(e) {
+  async handleFile(e) {
     e.preventDefault();
     const file = e.target.files[0];
     //process image - resize if needed
-    processImage(file).then(image => {
-      this.userFile = image;
-      //log to ui console
-      this.log(`Input image set: ${file.name}`);
-      //set image preview
-      const previewImage = URL.createObjectURL(image);
-      this.prevImgRef.current.setImage(previewImage);
-    })
+    const image =  await processImage(file);
+    this.userFile = image;
+    this.log(`Input image set: ${file.name}`);
+    const previewImage = URL.createObjectURL(image);
+    this.prevImgRef.current.setImage(previewImage);
   }
 
   //parameter fields onChange functions

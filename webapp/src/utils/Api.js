@@ -28,7 +28,6 @@ const sendImage = async (_data = null) => {
 const getProgress = async () => {
     const response = await fetch(`${baseUrl}getProgress`).then(handleErrors);
     const progress = parseFloat(response.progress);
-    console.log(response)
     return progress;
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress'
-import { getProgress } from "../Api/Api";
+import { getProgress } from "../../utils/Api";
 
 const StyledProgressBar = withStyles({
     root: {
@@ -12,27 +12,26 @@ const StyledProgressBar = withStyles({
 class ProgressBar extends React.Component {
     constructor(props) {
         super(props);
+        this.running = false;
         this.state = {
-            progress: 0,
-            running: false
+            progress: 0
         }
     }
 
     componentDidUpdate() {
-        if (!this.state.running && this.props.run) {
-            this.setState({ running: true })
+        if (!this.running && this.props.run) {
+            this.running = true
             this.interval = setInterval(() => this.getProgress(), 200);
-        } else if (this.state.running && !this.props.run) {
+        } else if (this.running && !this.props.run) {
             clearInterval(this.interval);
-            this.setState({ running: false });
+            this.running = false;
         }
     }
 
     stop(msg = '') {
         clearInterval(this.interval);
+        this.running = false;
         this.props.onFinish();
-        this.setState({ running: false });
-        console.log("pbar stopped")
         if (msg !== '') {
             console.error(msg);
             alert(msg);
@@ -40,7 +39,8 @@ class ProgressBar extends React.Component {
     }
 
     log(msg, timeStamp = true) {
-        this.props.console.current.add(msg, timeStamp);
+        if (this.props.console)
+            this.props.console.current.add(msg, timeStamp);
     }
 
     async getProgress() {

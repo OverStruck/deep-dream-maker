@@ -1,13 +1,13 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-import FileDialogue from './FileSelector/FileSelector';
-import LayerSelector from "./ParameterFields/LayerSelector"
-import Console from './Console';
-import ParameterFields from './ParameterFields/ParameterFields';
-import ProgressBar from './ProgressBar/ProgressBar';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+//custom components
+import Console from "../Console/Console";
+import ProgressBar from "../ProgressBar/ProgressBar";
+import FileDialogue from "../FileSelector/FileSelector";
+import LayerSelector from "../ParameterFields/LayerSelector"
+import ParameterFields from "../ParameterFields/ParameterFields";
 
 
 class Inputs extends React.Component {

@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import Home from "./routes/Home"
 import About from "./routes/About"
-import NavBar from "./components/NavBar"
+import NavBar from "./components/NavBar/NavBar"
 
 export default function App() {
     return (

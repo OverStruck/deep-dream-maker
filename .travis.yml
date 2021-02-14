@@ -10,7 +10,6 @@ before_install: cd webapp
 cache:
   directories:
   - node_modules
-install: pip install coverage
 
 jobs:
   include:
@@ -20,5 +19,5 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
   include:
     - stage: "Build Web App"
-      script: npm build
+      script: npm run build
 

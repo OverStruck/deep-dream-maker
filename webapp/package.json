@@ -42,6 +42,7 @@
     "@testing-library/react": "^11.2.5"
   },
   "jest": {
-    "displayName": "DeepDream Maker Web App"
+    "displayName": "DeepDream Maker Web App",
+    "coverageReporters": ["html", "lcov"]
   }
 }

@@ -1,4 +1,6 @@
 # DeepDream Maker
+[![Build Status](https://travis-ci.com/OverStruck/deep-dream-maker.svg?branch=dev-2.0)](https://travis-ci.com/OverStruck/deep-dream-maker)
+
 **DeepDream Maker** is a GUI Interface wrapper for [Google's Deep Dream](https://github.com/google/deepdream) and related python scripts
 
 It allows you to easily dreamifty images without needing to use a terminal and provides a

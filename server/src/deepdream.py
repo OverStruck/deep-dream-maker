@@ -9,6 +9,7 @@ import base64
 import PIL.Image
 import numpy as np
 from io import BytesIO
+from sys import getsizeof
 import scipy.ndimage as nd
 
 class DeepDream:
@@ -89,6 +90,7 @@ class DeepDream:
                     img = np.uint8(np.clip(vis, 0, 255))
                     buf = BytesIO()
                     PIL.Image.fromarray(img, "RGB").save(buf, format="JPEG")
+                    print "buf.getvalue():", getsizeof(buf.getvalue())
                     encoded_img = base64.b64encode(buf.getvalue())
                     preImgProgress = round(((totalRuns * 1.0) / finalRun) * 100, 2)
                     previewImg.put([encoded_img, preImgProgress])

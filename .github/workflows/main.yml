@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the dev-2.0 branch
+  push:
+    paths-ignore:
+    - 'docs/**'
+    branches: [ dev-2.0 ]
+  pull_request:
+    branches: [ dev-2.0 ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [15.x]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v2
+      with:
+        # npm cache files are stored in `~/.npm` on Linux/macOS
+        path: ~/.npm
+        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-node-
+          ${{ runner.OS }}-
+    
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./webapp
+
+    - name: Run tests
+      run: npm test
+      working-directory: ./webapp
+        
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+    
+    - name: Build
+      run: npm run build
+      working-directory: ./webapp

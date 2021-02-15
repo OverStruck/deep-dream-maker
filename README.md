@@ -1,5 +1,5 @@
 # DeepDream Maker
-[![Build Status](https://travis-ci.com/OverStruck/deep-dream-maker.svg?branch=dev-2.0)](https://travis-ci.com/OverStruck/deep-dream-maker)
+[![Build Status](https://github.com/OverStruck/deep-dream-maker/workflows/WebApp%20Build/badge.svg)
 [![codecov](https://codecov.io/gh/OverStruck/deep-dream-maker/branch/dev-2.0/graph/badge.svg?token=d4WHf4xApM)](https://codecov.io/gh/OverStruck/deep-dream-maker)
 ![License](https://img.shields.io/github/license/OverStruck/deep-dream-maker)
 ![Issues](https://img.shields.io/github/issues/OverStruck/deep-dream-maker)

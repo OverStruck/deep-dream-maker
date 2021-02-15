@@ -16,9 +16,11 @@ class FileDialogue extends React.Component {
   }
 
   render() {
+    const {handleUpload, disabled} = this.props;
     return (
       <Grid item>
         <Button
+          disabled={disabled}
           color="primary"
           size="large"
           variant="contained"
@@ -28,7 +30,7 @@ class FileDialogue extends React.Component {
         </Button>
         <input ref={this.inputElem}
           data-testid="fileHandler"
-          onChange={this.props.handleUpload}
+          onChange={handleUpload}
           type="file"
           style={{ display: "none" }} />
       </Grid>

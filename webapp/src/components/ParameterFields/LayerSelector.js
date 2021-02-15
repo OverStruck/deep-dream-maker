@@ -47,7 +47,7 @@ function createLayers() {
     return layers;
 }
 
-function LayerSelector({ data }) {
+function LayerSelector({ data, disabled }) {
     const { onChange, value } = data;
     return (
         <Grid item container spacing={3} >
@@ -55,7 +55,7 @@ function LayerSelector({ data }) {
                 <label htmlFor="layer">Select layer (blob): </label>
             </Grid>
             <Grid item >
-                <TextField select value={value} onChange={onChange} name="layer">
+                <TextField select value={value} onChange={onChange} name="layer" disabled={disabled} >
                     {createLayers().map((layer) => (
                         <MenuItem key={layer} value={layer}>
                             {layer}

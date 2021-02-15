@@ -24,15 +24,15 @@ class Inputs extends React.Component {
     render() {
         return (
             <Grid item container direction="column" spacing={1} xs={6} style={{ maxHeight: 512 }} wrap="nowrap">
-                <FileDialogue handleUpload={this.props.onFileSelect} />
-                <ParameterFields data={this.props.parameters} />
-                <LayerSelector data={this.props.layerSelector} />
+                <FileDialogue handleUpload={this.props.onFileSelect} disabled={this.props.dreaming} />
+                <ParameterFields data={this.props.parameters} disabled={this.props.dreaming} />
+                <LayerSelector data={this.props.layerSelector} disabled={this.props.dreaming} />
                 {/* Main control buttons */}
                 <Grid item container>
                     <ButtonGroup variant="contained" color="primary" size="large" fullWidth>
                         <Button disabled={this.props.dreaming} onClick={this.props.onMakeItDream}>Make it Dream</Button>
                         <Button disabled={!this.props.dreaming} onClick={this.props.onStopDream}>Stop Dream</Button>
-                        <Button disabled={!this.props.canDownload} onClick={this.props.onDownload} >Download Dream</Button>
+                        <Button disabled={!this.props.canDownload || this.props.dreaming} onClick={this.props.onDownload} >Download Dream</Button>
                     </ButtonGroup>
                 </Grid>
 

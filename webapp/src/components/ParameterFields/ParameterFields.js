@@ -28,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //small buttons next to input field to increase/decrease value
-function SmallButton({ facing, onClick, label }) {
+function SmallButton({ facing, onClick, label, disabled }) {
   const { smallButton } = useStyles();
   const ariaLabel = `${label}-${facing}`
   return <Button
+    disabled={disabled}
     onClick={onClick}
     color="primary"
     size="small"
@@ -43,7 +44,7 @@ function SmallButton({ facing, onClick, label }) {
 }
 
 //input[number] element for parameters input
-function InputBox({ label, step, min, value, onChange }) {
+function InputBox({ label, step, min, value, onChange, disabled }) {
   const { inputField } = useStyles();
 
   const inputProps = {
@@ -53,6 +54,7 @@ function InputBox({ label, step, min, value, onChange }) {
     "aria-label": label
   }
   return <TextField
+    disabled={disabled}
     type="number"
     inputProps={inputProps}
     value={value}
@@ -62,7 +64,7 @@ function InputBox({ label, step, min, value, onChange }) {
   />
 }
 
-function ParameterField({ label, step, value, callBacks }) {
+function ParameterField({ label, step, value, callBacks, disabled }) {
 
   //increment parameter number based on step size
   const handleDecrement = (e) => {
@@ -93,37 +95,37 @@ function ParameterField({ label, step, value, callBacks }) {
     <Grid item>
       <label htmlFor={id}>{label}</label>
       <span style={{ display: "flex" }}>
-        <SmallButton onClick={handleDecrement} facing="down" label={id} />
+        <SmallButton onClick={handleDecrement} facing="down" label={id} disabled={disabled} />
         <InputBox
+          disabled={disabled}
           label={id}
           step={step}
           min={step}
           value={value}
           onChange={callBacks.onInputChange}
         />
-        <SmallButton onClick={handleIncrement} facing="up" label={id} />
+        <SmallButton onClick={handleIncrement} facing="up" label={id} disabled={disabled} />
       </span>
     </Grid>
   );
 
 }
 
-function ParameterFields({ data }) {
+function ParameterFields({ data, disabled }) {
   const classes = useStyles();
   const { iterations, octaves, octavescale, jitter, stepsize } = data.state;
   return (
     <Grid container item>
       <div className={classes.smallHeading} >DeepDream parameters:</div>
       <Grid container justify="space-evenly">
-        <ParameterField label="Iterations" step={1} value={iterations} callBacks={data.callBacks} />
-        <ParameterField label="Octaves" step={1} value={octaves} callBacks={data.callBacks} />
-        <ParameterField label="Octave Scale" step={0.1} value={octavescale} callBacks={data.callBacks} />
-        <ParameterField label="Jitter" step={1} value={jitter} callBacks={data.callBacks} />
-        <ParameterField label="Step Size" step={0.1} value={stepsize} callBacks={data.callBacks} />
+        <ParameterField label="Iterations" step={1} value={iterations} callBacks={data.callBacks} disabled={disabled} />
+        <ParameterField label="Octaves" step={1} value={octaves} callBacks={data.callBacks} disabled={disabled} />
+        <ParameterField label="Octave Scale" step={0.1} value={octavescale} callBacks={data.callBacks} disabled={disabled} />
+        <ParameterField label="Jitter" step={1} value={jitter} callBacks={data.callBacks} disabled={disabled} />
+        <ParameterField label="Step Size" step={0.1} value={stepsize} callBacks={data.callBacks} disabled={disabled} />
       </Grid>
     </Grid>
   );
 }
 
 export default ParameterFields;
-//export default withStyles(styles)(ParameterFields);

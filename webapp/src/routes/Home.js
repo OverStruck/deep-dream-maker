@@ -100,6 +100,7 @@ class Home extends React.Component {
       this.log(message);
       this.dreamifiedFile = newFileName;
       this.setState({ running: true });
+      this.setState({ dreaming: true });
     } catch (e) {
       this.handleErrors(e.toString());
     }

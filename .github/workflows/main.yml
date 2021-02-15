@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: WebApp Build
 
 # Controls when the action will run. 
 on:
@@ -8,6 +8,7 @@ on:
   push:
     paths-ignore:
     - 'docs/**'
+    - 'server/**'
     branches: [ dev-2.0 ]
   pull_request:
     branches: [ dev-2.0 ]
@@ -55,6 +56,9 @@ jobs:
         
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+      with:
+        directory: ./webapp
+        fail_ci_if_error: true 
     
     - name: Build
       run: npm run build

@@ -109,6 +109,11 @@ class Home extends React.Component {
   //handle user file section
   async handleFile(e) {
     e.preventDefault();
+    if (e.target.files.length === 0) {
+      //suspect Cancel was hit, no files selected."
+      this.log("No file selected");
+      return;
+    }
     const file = e.target.files[0];
     //process image - resize if needed
     const image =  await processImage(file);

@@ -1,6 +1,6 @@
 //import { useState, useEffect } from "react";
 
-const baseUrl = "http://localhost:6001/api/v1/";
+const baseUrl = "http://127.0.0.1:6001/api/v1";
 
 const handleErrors = async (response) => {
     if (!response.ok) {
@@ -16,7 +16,7 @@ const handleErrors = async (response) => {
 }
 
 const sendImage = async (_data = null) => {
-    const response = await fetch(`${baseUrl}processImage`, {
+    const response = await fetch(`${baseUrl}/processImage`, {
         method: "POST",
         body: _data
     }).then(handleErrors);
@@ -26,16 +26,17 @@ const sendImage = async (_data = null) => {
 }
 
 const getProgress = async () => {
-    const response = await fetch(`${baseUrl}getProgress`).then(handleErrors);
+    const response = await fetch(`${baseUrl}/getProgress`).then(handleErrors);
     const progress = parseFloat(response.progress);
     return progress;
 }
 
 const getPreviewImage = async () => {
-    const response = await fetch(`${baseUrl}getPreviewImage`).then(handleErrors);
+    const response = await fetch(`${baseUrl}/getPreviewImage`).then(handleErrors);
     const done = response.done;
     const image = response.image;
     const progress = response.progress;
+    //let done = true, image = "", progress = 100;
     return { done, image, progress };
 }
 

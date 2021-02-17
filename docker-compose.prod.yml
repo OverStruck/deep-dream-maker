@@ -10,7 +10,7 @@ services:
     depends_on:
       - server
     ports:
-      - 1337:80
+      - 9993:80
 
   server:
     image: deep-dream-maker-server:prod
@@ -19,10 +19,8 @@ services:
       context: './server'
       dockerfile: Dockerfile.prod
     ports: 
-      - 3002:5000
-    environment:
-     - NVIDIA_VISIBLE_DEVICES=all
-     - FLASK_ENV=production
+      - 6001:5000
+
 
 
   

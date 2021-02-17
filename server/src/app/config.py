@@ -1,12 +1,8 @@
+import os
 class Config(object):
-    DEBUG = False
+    ENV = os.environ["FLASK_ENV"]
+    DEBUG = os.environ["FLASK_DEBUG"]
     TESTING = False
     UPLOAD_FOLDER = "user_images"
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
     API_PREFIX = "/api/v1"
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-
-class TestingConfig(Config):
-    TESTING = True

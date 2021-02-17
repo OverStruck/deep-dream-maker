@@ -2,7 +2,7 @@
 import os
 import PIL.Image
 import numpy as np
-from deepdream import DeepDream
+from DeepDream import DeepDream
 from google.protobuf import text_format
 from multiprocessing import Process, Queue, Value
 
@@ -21,6 +21,7 @@ import caffe
 
 class DeepDreamProcess:
     def __init__(self):
+        self.stop = Value("i", 0)
         self.progress = Value("i", 0)
         self.previewImage = Queue()
         self.net = self.loadNet()
@@ -57,7 +58,7 @@ class DeepDreamProcess:
         self.outputLocation = outputLocation
         self.totalWork = args["iterations"] * args["octaves"]
 
-    def deepDreamMaker(self, args, inputImage, progress, previewImg):
+    def deepDreamMaker(self, args, stop, inputImage, progress, previewImg):
         print("Running ACTUAL DEEP DREAM")
         image = PIL.Image.open(inputImage).convert("RGB")
         image = np.float32(image)
@@ -66,10 +67,14 @@ class DeepDreamProcess:
         dream = dd.deepdream(
             image,
             args,
+            stop,
             progress,
             previewImg,
         )
-        self.saveDream(dream)
+        if self.stop.value == 1:
+            print("DeepDream stopped by user")
+        else:
+            self.saveDream(dream)
 
     def saveDream(self, dream, fmt="JPEG"):
         image = np.uint8(dream)
@@ -77,11 +82,16 @@ class DeepDreamProcess:
         print("Dream saved to disk")
 
     def run(self):
-        print("Starting DeepDream Thread")
+        # reset flags
+        self.stop.value = 0
+        self.progress.value = 0
+        
+        print("Starting DeepDream Process")
         self.process = Process(
             target=self.deepDreamMaker,
             args=(
                 self.args,
+                self.stop,
                 self.inputImage,
                 self.progress,
                 self.previewImage,
@@ -93,8 +103,13 @@ class DeepDreamProcess:
     def isAlive(self):
         return self.process.is_alive()
 
+    def getPid(self):
+        return self.process.pid
+
     def killProcess(self):
+        self.stop.value = 1
         self.process.terminate()
+        self.process.join()
 
     def getProgress(self):
         p = self.progress.value

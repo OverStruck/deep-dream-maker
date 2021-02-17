@@ -6,6 +6,11 @@ RUN pip install -r requirements.txt
 COPY . .
 # setup enviroment
 EXPOSE 5000
-# run uWSGI with app.init
+
 WORKDIR src
-CMD [ "uwsgi", "--ini", "app.ini"]
+
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=production
+ENV FLASK_DEBUG=False
+
+CMD [ "gunicorn", "--config", "gunicorn/config.py", "wsgi:server"]

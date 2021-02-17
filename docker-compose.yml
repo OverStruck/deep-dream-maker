@@ -7,8 +7,6 @@ services:
     build:
       context: './webapp'
       dockerfile: Dockerfile
-    depends_on:
-      - server
     volumes:
       - './webapp:/app'
       - '/app/node_modules'
@@ -20,7 +18,7 @@ services:
   server:
     image: deep-dream-maker-server:dev
     container_name: deep-dream-maker-server
-    build: 
+    build:
       context: './server'
       dockerfile: Dockerfile
     volumes:
@@ -28,23 +26,6 @@ services:
     ports: 
       - 6001:5000
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - FLASK_DEBUG=1
-      - PYTHONUNBUFFERED=1
-      - FLASK_ENV=development
-
-  # server:
-  #   image: deep-dream-maker-server:prod
-  #   container_name: deep-dream-maker-server
-  #   build:
-  #     context: './server'
-  #     dockerfile: Dockerfile.prod
-  #   volumes:
-  #     - './server:/app'
-  #   ports: 
-  #     - 3002:5000
-  #   environment:
-  #    - NVIDIA_VISIBLE_DEVICES=all
-  #    - FLASK_ENV=development
+     - PYTHONUNBUFFERED=1
   
 

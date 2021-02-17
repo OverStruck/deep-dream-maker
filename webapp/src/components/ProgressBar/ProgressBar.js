@@ -21,7 +21,7 @@ class ProgressBar extends React.Component {
     componentDidUpdate() {
         if (!this.running && this.props.run) {
             this.running = true
-            this.interval = setInterval(() => this.getProgress(), 200);
+            this.interval = setInterval(() => this.getProgress(), 500);
         } else if (this.running && !this.props.run) {
             clearInterval(this.interval);
             this.running = false;
@@ -34,7 +34,6 @@ class ProgressBar extends React.Component {
         this.props.onFinish();
         if (msg !== '') {
             console.error(msg);
-            alert(msg);
         }
     }
 

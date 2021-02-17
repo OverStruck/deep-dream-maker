@@ -30,7 +30,7 @@ class PreviewImage extends React.Component {
     componentDidUpdate() {
         if (!this.state.running && this.props.run) {
             this.setState({ running: true })
-            this.interval = setInterval(() => this.getProgress(), 1000);
+            this.interval = setInterval(() => this.getProgress(), 200);
         }
     }
 

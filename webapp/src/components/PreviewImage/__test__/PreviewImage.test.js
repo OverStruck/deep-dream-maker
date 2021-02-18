@@ -53,9 +53,9 @@ describe("Preview Image Fetching", () => {
     it("fetches 1 image", async () => {
         const imageContainer = screen.getByRole("img");
         //make time pass
-        jest.advanceTimersByTime(200);
+        jest.advanceTimersByTime(100);
         expect(mockCallback).not.toHaveBeenCalled();
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(100);
         await waitFor(() => expect(imageContainer).toHaveStyle(`background-image: url(${fakeApi.getUrl(0)})`));
         jest.clearAllTimers();
         expect(mockCallback).toHaveBeenCalledTimes(1);
@@ -65,7 +65,7 @@ describe("Preview Image Fetching", () => {
         const imageContainer = screen.getByRole("img");
         //simulate fetching images
         for (let i = 0; i < 4; i++) {
-            jest.advanceTimersByTime(1000);
+            jest.advanceTimersByTime(200);
             //allow any pending jobs in the PromiseJobs queue to run
             await Promise.resolve();
         }
@@ -79,7 +79,7 @@ describe("Preview Image Fetching", () => {
         const imageContainer = screen.getByRole("img");
         //simulate fetching images (6 seconds)
         for (let i = 0; i < 6; i++) {
-            jest.advanceTimersByTime(1000);
+            jest.advanceTimersByTime(200);
             //allow any pending jobs in the PromiseJobs queue to run
             await Promise.resolve();
         }

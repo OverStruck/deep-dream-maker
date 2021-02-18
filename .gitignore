@@ -653,3 +653,5 @@ MigrationBackup/
 !docs/images/*
 !webapp/public/*
 
+server/tmp.*
+

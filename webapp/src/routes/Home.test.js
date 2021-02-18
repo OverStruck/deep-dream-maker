@@ -186,7 +186,7 @@ describe("SEND IMAGE TO SERVER", () => {
         jest.useFakeTimers();
         const button = screen.getByRole("button", { name: /make it dream/i });
         userEvent.click(button);
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(200);
     });
     afterEach(() => {
         jest.clearAllTimers();
@@ -224,7 +224,7 @@ describe("SEND IMAGE TO SERVER", () => {
     });
 
     it("preview image is updated", async () => {
-        jest.advanceTimersByTime(2000);
+        jest.advanceTimersByTime(400);
         const imageContainer = screen.getByRole("img");
         await waitFor(() => expect(imageContainer).toHaveStyle(`background-image: url(${api.getUrl(2)})`));
     });

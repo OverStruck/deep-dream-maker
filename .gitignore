@@ -641,6 +641,7 @@ MigrationBackup/
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
+.devcontainer/*
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files

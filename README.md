@@ -27,10 +27,10 @@ It allows you to easily dreamifty images without needing to use a terminal or in
 3. Run the services/containers:
 `docker-compose up` or `docker-compose up -d` if you don't want to see the terminal output
 
-Alternativetely you can also *just* build the images and run them at the same time:
+Alternatively you can also *just* build the images and run them at the same time:
 `docker-compose up --build -d`
 
-After the containers are running and fully initialized, you can go to `http://localhost:9993/` in your favorite web broswer and start making deep dream images! 😊
+After the containers are running and fully initialized, you can go to `http://localhost:9993/` in your favorite web browser and start making deep dream images! 😊
 
 ## Current state of the project
 DeepDream maker has been updated from version 1 to version 2. This new version uses Docker & Docker Compose to allow for a seamless experience.
@@ -38,6 +38,7 @@ The project is still in very active development. And *something* may break. If y
 
 ## Contributing
 ALL contributions are welcome, if you'd like to contribute, please see our [contributing guide](docs/CONTRIBUTING.md).
+
 Instructions on how to run the development version can be found [here ](docs/development-guide.md).
 
 Happy dreaming!

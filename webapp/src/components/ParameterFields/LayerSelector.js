@@ -2,50 +2,90 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
-function createInceptionLayers(layerID) {
-    const variants = ["1x1", "3x3", "5x5", "output", "pool", "pool_proj"];
-    const simpleLayers = variants.map((variant) => layerID + "/" + variant);
-    const reluL = variants.filter((v) => !["output", "pool"].includes(v))
-        .map((variant) => layerID + "/relu_" + variant);
-    const reduceL = variants.filter((v) => !["1x1", "output", "pool", "pool_proj"].includes(v))
-        .map((variant) => layerID + "/" + variant + "_reduce");
-    const reluReduceL = reluL.filter((v) => ![
-        "inception_3a/relu_1x1",
-        "inception_3a/relu_pool_proj"].includes(v))
-        .map((variant) => variant + "_reduce");
-
-    return [].concat(simpleLayers, reluL, reduceL, reluReduceL);
-}
-
-function createLayers() {
-    const inceptionLayer = "inception_"
-    let inceptionLayerIDs = [
-        ["a", "b"],
-        ["a", "b", "c", "d", "e"],
-        ["a", "b"]
-    ].map((set, i) => set.map(letter => (inceptionLayer + (i + 3) + letter)))
-
-        .flat().map(name => createInceptionLayers(name)).flat();
-
-    let layers = [
-        "conv1/7x7_s2",
-        "conv1/relu_7x7",
-        "pool1/3x3_s2",
-        "pool1/norm1",
-        "conv2/3x3_reduce",
-        "conv2/relu_3x3_reduce",
-        "conv2/3x3",
-        "conv2/relu_3x3",
-        "conv2/norm2",
-        "pool2/3x3_s2",
-        "pool3/3x3_s2",
-        "pool4/3x3_s2",
-        "pool5/7x7_s1",
-        "pool5/drop_7x7_s1"
-    ].concat(inceptionLayerIDs);
-
-    return layers;
-}
+const layers = [
+    "conv1/7x7_s2",
+    "pool1/3x3_s2",
+    "pool1/norm1",
+    "conv2/3x3",
+    "conv2/3x3_reduce",
+    "conv2/norm2",
+    "pool2/3x3_s2",
+    "inception_3a/1x1",
+    "inception_3a/3x3",
+    "inception_3a/3x3_reduce",
+    "inception_3a/5x5",
+    "inception_3a/5x5_reduce",
+    "inception_3a/output",
+    "inception_3a/pool",
+    "inception_3a/pool_proj",
+    "pool3/3x3_s2",
+    "inception_3b/1x1",
+    "inception_3b/3x3",
+    "inception_3b/3x3_reduce",
+    "inception_3b/5x5",
+    "inception_3b/5x5_reduce",
+    "inception_3b/output",
+    "inception_3b/pool",
+    "inception_3b/pool_proj",
+    "inception_4a/1x1",
+    "inception_4a/3x3",
+    "inception_4a/3x3_reduce",
+    "inception_4a/5x5",
+    "inception_4a/5x5_reduce",
+    "inception_4a/output",
+    "inception_4a/pool",
+    "inception_4a/pool_proj",
+    "inception_4b/1x1",
+    "inception_4b/3x3",
+    "inception_4b/3x3_reduce",
+    "inception_4b/5x5",
+    "inception_4b/5x5_reduce",
+    "inception_4b/output",
+    "inception_4b/pool",
+    "inception_4b/pool_proj",
+    "inception_4c/1x1",
+    "inception_4c/3x3",
+    "inception_4c/3x3_reduce",
+    "inception_4c/5x5",
+    "inception_4c/5x5_reduce",
+    "inception_4c/output",
+    "inception_4c/pool",
+    "inception_4c/pool_proj",
+    "inception_4d/1x1",
+    "inception_4d/3x3",
+    "inception_4d/3x3_reduce",
+    "inception_4d/5x5",
+    "inception_4d/5x5_reduce",
+    "inception_4d/output",
+    "inception_4d/pool",
+    "inception_4d/pool_proj",
+    "inception_4e/1x1",
+    "inception_4e/3x3",
+    "inception_4e/3x3_reduce",
+    "inception_4e/5x5",
+    "inception_4e/5x5_reduce",
+    "inception_4e/output",
+    "inception_4e/pool",
+    "inception_4e/pool_proj",
+    "pool4/3x3_s2",
+    "inception_5a/1x1",
+    "inception_5a/3x3",
+    "inception_5a/3x3_reduce",
+    "inception_5a/5x5",
+    "inception_5a/5x5_reduce",
+    "inception_5a/output",
+    "inception_5a/pool",
+    "inception_5a/pool_proj",
+    "inception_5b/1x1",
+    "inception_5b/3x3",
+    "inception_5b/3x3_reduce",
+    "inception_5b/5x5",
+    "inception_5b/5x5_reduce",
+    "inception_5b/output",
+    "inception_5b/pool",
+    "inception_5b/pool_proj",
+    "pool5/7x7_s1"
+]
 
 function LayerSelector({ data, disabled }) {
     const { onChange, value } = data;
@@ -56,7 +96,7 @@ function LayerSelector({ data, disabled }) {
             </Grid>
             <Grid item >
                 <TextField select value={value} onChange={onChange} name="layer" disabled={disabled} >
-                    {createLayers().map((layer) => (
+                    {layers.map(layer => (
                         <MenuItem key={layer} value={layer}>
                             {layer}
                         </MenuItem>

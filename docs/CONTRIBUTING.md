@@ -44,7 +44,7 @@ People love thorough bug reports. I'm not even kidding.
 By contributing, you agree that your contributions will be licensed under the GNU General Public License v3.0
 
 # Getting started
-Please see our [understanding the code base document](docs/development-guide.md)
+Please see our [understanding the code base document](development-guide.md)
 for more information about how the project is structured, including languages use and general architecture. 
 
 # References

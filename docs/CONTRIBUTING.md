@@ -48,4 +48,4 @@ Please see our [understanding the code base document](docs/development-guide.md)
 for more information about how the project is structured, including languages use and general architecture. 
 
 # References
-This document was adapted from the open-source contribution guidelines for [acebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md).
+This document was adapted from the open-source contribution guidelines for [Facebook's draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md).

@@ -21,10 +21,9 @@ It allows you to easily dreamifty images without needing to use a terminal or in
 
 1. Clone the repository:
 `git clone https://github.com/OverStruck/deep-dream-maker.git`
-
-2. Build the images: `docker-compose build`
-
-3. Run the services/containers:
+2. Navigate to the deep-dream-maker folder: `cd deep-dream-maker/`
+3. Build the images: `docker-compose build`
+4. Run the services/containers:
 `docker-compose up` or `docker-compose up -d` if you don't want to see the terminal output
 
 Alternatively you can also *just* build the images and run them at the same time:

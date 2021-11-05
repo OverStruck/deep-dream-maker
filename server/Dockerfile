@@ -3,7 +3,7 @@ FROM bvlc/caffe:cpu
 
 WORKDIR /app
 COPY requirements.txt requirements.txt
-# newer pip version to install jsonschema
+# newer pip version needed to install jsonschema
 RUN pip install --upgrade pip
 # install dependencies
 RUN pip install -r requirements.txt

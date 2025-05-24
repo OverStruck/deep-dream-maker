@@ -1,5 +1,5 @@
 Flask==1.1.2
-flask-cors==3.0.10
+flask-cors==6.0.0
 flask-restx==0.2.0
 pyrsistent==0.16.0
 # last version to support python 2.7
